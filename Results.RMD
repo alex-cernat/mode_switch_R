@@ -1,0 +1,113 @@
+---
+title: "Results"
+author: "Alexandru Cernat"
+date: "14 January 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F)
+load("./data/ip_data_clean.RData")
+
+pkg <- c("tidyverse", "ggthemes", "haven",
+         "lme4", "rmarkdown", "reshape2",
+         "MplusAutomation", "poLCA", "plotly",
+         "texreg", "knitr")
+
+sapply(pkg, library, character.only = T)
+
+```
+
+## latent classes
+
+# fit calculation for models
+```{r}
+
+kable(lca_fit_mplus)
+```
+
+Class sizes
+```{r, echo=F, message=F, warning=F}
+lca5 <- readModels("./mplus/mode_switch_lca_5.out")
+
+kable(lca5$class_counts$modelEstimated)
+
+```
+
+```{r cars}
+
+g <- probs %>%
+  mutate(value = 1 - value,
+         Outcome = as.factor(Outcome),
+         Outcome = factor(Outcome,
+                          labels = c("Web", "Response")),
+         key = as.factor(key),
+         key = factor(key, labels = c("Switch and non-response",
+                                          "Fast switchers",
+                                          "Slow switchers",
+                                          "Face to face respondents",
+                                          "Web respondents"))) %>%
+  ggplot(aes(Wave, value, color = key, group = key)) +
+  facet_wrap(~Outcome) +
+  geom_point(size = 2, alpha = 0.8) +
+  geom_line(size = 1, alpha = 0.8) +
+  theme_bw() +
+  labs(y = "Probability Yes",
+       color = "Class")
+
+ ggplotly(g)
+
+g
+
+```
+
+## Models predicting latent classes
+
+
+```{r pressure, echo=FALSE, results='asis'}
+
+res1 <- lm("non_resp ~ edu_9 + agecat_9 +
+          female_9 + partner_9 + urban_9 + london_9 + north_9 +
+           f2f_nomiss_9",
+  data = ip_data3)
+
+
+res2 <- lm("non_resp ~ edu_9 + agecat_9 +
+          female_9 + partner_9 + urban_9 + london_9 + north_9 +
+           f2f_nomiss_9 + class",
+           data = ip_data3)
+
+
+
+res3 <- lm("f2f ~ edu_9 + agecat_9 +
+          female_9 + partner_9 + urban_9 + london_9 + north_9 +
+           f2f_nomiss_9",
+           data = ip_data3)
+
+
+res4 <- lm("f2f ~ edu_9 + agecat_9 +
+          female_9 + partner_9 + urban_9 + london_9 + north_9 +
+           f2f_nomiss_9 + class",
+           data = ip_data3)
+
+
+
+labs_res1 <- c("Intercept", "Edu: A level", "Edu: GCSE",
+               "Edu: Other", "Age: 36-55", "Age: 56-75",
+               "Age: >75", "Female", "Partner", "Urban",
+               "London", "North", "Wave 9 f2f",
+               "Class: Fast switchers",
+               "Class: Slow switchers",
+               "Class: Face to face respondents",
+               "Class: Web respondents")
+
+htmlreg(list(res1, res2, res3, res4), 
+        caption = "Explaining response and mode in wave 10",
+        custom.model.names = c("Response m1", "Response m2", 
+                               "Face to face m1", "Face to face m2"),
+        custom.coef.names = c(labs_res1),
+        custom.note = "Degree, under 36, rural, male, wave in wave 9 and
+        Class: 'Swtich and non-response' are refrences")
+
+```
+

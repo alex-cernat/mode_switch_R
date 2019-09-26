@@ -1,0 +1,33 @@
+     Code Freq. Perc.
+1  Higher   312  40.3
+2 A level   162  20.9
+3    GCSE   177  22.8
+4   Other    84  10.8
+5    <NA>    40   5.2
+     Code Freq. Perc.
+1  age_35   129  16.6
+2  age_55   276  35.6
+3  age_75   287  37.0
+4 age_102    50   6.5
+5    <NA>    33   4.3
+[1] "definitive sex variable "
+  Labs Code Freq. Perc.
+1 <NA>    0   347  44.8
+2 male    1   395  51.0
+3 <NA>   NA    33   4.3
+  Code Freq. Perc.
+1    0   208  26.8
+2    1   533  68.8
+3 <NA>    34   4.4
+  Code Freq. Perc.
+1    0   205  26.5
+2    1   537  69.3
+3 <NA>    33   4.3
+  Code Freq. Perc.
+1    0   689  88.9
+2    1    53   6.8
+3 <NA>    33   4.3
+  Code Freq. Perc.
+1    0   422  54.5
+2    1   320  41.3
+3 <NA>    33   4.3

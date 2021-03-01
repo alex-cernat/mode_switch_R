@@ -1,18 +1,17 @@
 ---
 title: "Results"
 author: "Alexandru Cernat"
-date: "14 January 2019"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r include=FALSE}
 knitr::opts_chunk$set(echo = F)
 load("./data/ip_data_clean.RData")
 
 pkg <- c("tidyverse", "ggthemes", "haven",
          "lme4", "rmarkdown", "reshape2",
          "MplusAutomation", "poLCA", "plotly",
-         "texreg", "knitr")
+         "texreg", "knitr", "generics")
 
 sapply(pkg, library, character.only = T)
 
@@ -26,88 +25,379 @@ sapply(pkg, library, character.only = T)
 kable(lca_fit_mplus)
 ```
 
-Class sizes
-```{r, echo=F, message=F, warning=F}
-lca5 <- readModels("./mplus/mode_switch_lca_5.out")
-
-kable(lca5$class_counts$modelEstimated)
-
-```
-
-```{r cars}
-
-g <- probs %>%
-  mutate(value = 1 - value,
-         Outcome = as.factor(Outcome),
-         Outcome = factor(Outcome,
-                          labels = c("Web", "Response")),
-         key = as.factor(key),
-         key = factor(key, labels = c("Switch and non-response",
-                                          "Fast switchers",
-                                          "Slow switchers",
-                                          "Face to face respondents",
-                                          "Web respondents"))) %>%
-  ggplot(aes(Wave, value, color = key, group = key)) +
-  facet_wrap(~Outcome) +
-  geom_point(size = 2, alpha = 0.8) +
-  geom_line(size = 1, alpha = 0.8) +
-  theme_bw() +
-  labs(y = "Probability Yes",
-       color = "Class")
-
- ggplotly(g)
-
-g
-
-```
 
 ## Models predicting latent classes
 
 
-```{r pressure, echo=FALSE, results='asis'}
+```{r results='asis', warning=F, message=F}
 
-res1 <- lm("non_resp ~ edu_9 + agecat_9 +
+
+
+# make factor from class
+ip_data3 <- ip_data3 %>%
+  mutate(class = as.factor(str_c("Class ", c)),
+         class = relevel(class, ref = 5))
+
+
+# make indicator if someone missed any wave
+ip_data3 <- ip_data3 %>%
+  rowwise() %>%
+  mutate(cum_nonresp = sum(
+    ifelse(out_5 %in% c("Refusal", "Other non-resp"), 1, 0),
+    ifelse(out_6 %in% c("Refusal", "Other non-resp"), 1, 0),
+    ifelse(out_7 %in% c("Refusal", "Other non-resp"), 1, 0),
+    ifelse(out_8 %in% c("Refusal", "Other non-resp"), 1, 0),
+    ifelse(out_9 %in% c("Refusal", "Other non-resp"), 1, 0),na.rm = T),
+         any_nonresp = ifelse(cum_nonresp > 0, 1, 0))
+
+
+res1 <- glm("non_resp ~ edu_9 + agecat_9 +
           female_9 + partner_9 + urban_9 + london_9 + north_9 +
-           f2f_nomiss_9",
-  data = ip_data3)
+           f2f_nomiss_9 + any_nonresp",
+  data = ip_data3, family = binomial())
 
 
-res2 <- lm("non_resp ~ edu_9 + agecat_9 +
+res2 <- glm("non_resp ~ edu_9 + agecat_9 +
           female_9 + partner_9 + urban_9 + london_9 + north_9 +
-           f2f_nomiss_9 + class",
+           f2f_nomiss_9 + any_nonresp + class",
+           data = ip_data3, family = binomial())
+
+
+res3 <- glm("f2f ~ edu_9 + agecat_9 +
+          female_9 + partner_9 + urban_9 + london_9 + north_9 +
+           f2f_nomiss_9 + any_nonresp", family = binomial(),
            data = ip_data3)
 
-
-
-res3 <- lm("f2f ~ edu_9 + agecat_9 +
+res4 <- glm("f2f ~ edu_9 + agecat_9 +
           female_9 + partner_9 + urban_9 + london_9 + north_9 +
-           f2f_nomiss_9",
-           data = ip_data3)
+           f2f_nomiss_9 + any_nonresp + class",
+             data = ip_data3, family = binomial())
 
-
-res4 <- lm("f2f ~ edu_9 + agecat_9 +
+res5 <- glm("f2f_offer ~ edu_9 + agecat_9 +
           female_9 + partner_9 + urban_9 + london_9 + north_9 +
-           f2f_nomiss_9 + class",
-           data = ip_data3)
+           f2f_nomiss_9 + any_nonresp", family = binomial(),
+            data = ip_data3)
+
+res6 <- glm("f2f_offer ~ edu_9 + agecat_9 +
+          female_9 + partner_9 + urban_9 + london_9 + north_9 +
+           f2f_nomiss_9 + any_nonresp + class",
+            data = ip_data3, family = binomial())
 
 
+
+# rmsea
+
+res_list <- list(res1, res2, res3, res4, res5, res6)
+rmsea_vct <- map(res_list, function(x) qpcR::RMSE(x)) %>%
+  unlist()
+
+
+
+res_df <- map_df(res_list, glance) %>%
+  mutate(rmsea = rmsea_vct)
+
+
+
+
+rocs <- map(res_list, function(x){
+  predpr <- predict(x, type = c("response"))
+  roccurve <- pROC::roc(x$y ~ predpr)
+})
+
+res_df <- mutate(res_df,
+                 AUC = map(rocs, function(x) x$auc) %>% unlist()) %>% 
+  select(AIC, BIC, logLik, deviance, rmsea, AUC)
+
+
+
+fit_indicators <- map(res_list, function(x) {
+  predpr <- predict(x, type = c("response"))
+  roccurve <- pROC::roc(x$y ~ predpr)
+
+  glance(x) %>%
+    mutate(RMSE = qpcR::RMSE(x),
+           AIC = x$aic,
+           n = nrow(model.frame(x)),
+           AUC = roccurve$auc)
+}) %>%
+  reduce(rbind)
+
+print_models <- res_list %>%
+  map(function(x) {
+
+    tr <- extract(x)
+    tr@gof <- c(tr@gof, qpcR::RMSE(x))
+    tr@gof.names <- c(tr@gof.names, "RMSE")
+    tr@gof.decimal <- c(tr@gof.decimal, TRUE)
+
+   predpr <- predict(x, type = c("response"))
+   roccurve <- pROC::roc(x$y ~ predpr)
+
+    tr@gof <- c(tr@gof, roccurve$auc)
+    tr@gof.names <- c(tr@gof.names, "AUC")
+    tr@gof.decimal <- c(tr@gof.decimal, TRUE)
+
+    tr
+  })
+
+
+# labels
+# Class 5 = "Web respondents"
+# Class 2 = "Face to face respondents"
+# Class 1 = "Single mode/early drop-offs"  "Early drop-offs"
+# Class 3 = "Face to face/late drop-offs"
+# Class 4 = "Switchers"
 
 labs_res1 <- c("Intercept", "Edu: A level", "Edu: GCSE",
                "Edu: Other", "Age: 36-55", "Age: 56-75",
                "Age: >75", "Female", "Partner", "Urban",
-               "London", "North", "Wave 9 f2f",
-               "Class: Fast switchers",
-               "Class: Slow switchers",
-               "Class: Face to face respondents",
-               "Class: Web respondents")
+               "London", "North", "Wave 9 f2f", "Any non-response",
+               "Class: Face to face resp.",
+               "Class: Face to face/late drop-offs",
+               "Class: Switchers")
 
-htmlreg(list(res1, res2, res3, res4), 
+htmlreg(print_models,
         caption = "Explaining response and mode in wave 10",
-        custom.model.names = c("Response m1", "Response m2", 
-                               "Face to face m1", "Face to face m2"),
+        custom.model.names = c("Non-response m1",
+                               "Non-response m2",
+                               "Face to face m1",
+                               "Face to face m2",
+                               "Offered face to face m1",
+                               "Offered face to face m2"),
         custom.coef.names = c(labs_res1),
-        custom.note = "Degree, under 36, rural, male, wave in wave 9 and
-        Class: 'Swtich and non-response' are refrences")
+        custom.note = 'Reference are respondents with: degree, under 36, male, no partner, rural, other area, web in wave 9, continuous participant and
+        Class: "Web respondents".\n The "Class: Single mode/early drop-offs" was excluded due to the small number of eligible respondents.',
+        doctype = F)
+
+
+
+
+
+# # add asjuted r2 and rmse
+# res_list <- list(res1, res2, res3, res4, res5, res6)
+# 
+# 
+# map(res_list, function(x) {
+#   predpr <- predict(x, type = c("response"))
+#   roccurve <- pROC::roc(x$y ~ predpr)
+# 
+#   glance(x) %>%
+#     mutate(RMSE = qpcR::RMSE(x),
+#            AIC = x$aic,
+#            n = nrow(model.frame(x)),
+#            AUC = roccurve$auc)
+# }) %>%
+#   reduce(rbind)
+# 
+# 
+# 
+# res1 %>% glance() %>%
+#   mutate(RMSE = qpcR::RMSE(res1),
+#          AIC = res1$aic)
+# 
+# plot(rocs[[1]])
+# plot(rocs[[2]])
+# 
+# 
+# library(pROC)
+# pred1 = predict(res1)
+# pred2 = predict(res2)
+# 
+# roc1 = roc(res1$y, pred1)
+# roc2 = roc(res2$y, pred2)
+# 
+# 
+# plot(roc1)
+# plot(roc1, col = 1, lty = 2, main = "ROC")
+# plot(roc2, col = 4, lty = 3, add = TRUE)
+# 
+# 
+# 
+# tibble(specificities = roccurve$specificities,
+#        sensitivities = roccurve$sensitivities,
+#        thresh = roccurve$thresholds) %>%
+#   ggplot(aes(specificities, thresh)) + geom_line()
+# plot(roccurve)
+# 
+# 
+
+# map(res_list, car::vif)
+# 
+# 
+# print_models <- res_list %>%
+#   map(function(x) {
+# 
+#     tr <- extract(x)
+#     tr@gof <- c(tr@gof, qpcR::RMSE(x))
+#     tr@gof.names <- c(tr@gof.names, "RMSE")
+#     tr@gof.decimal <- c(tr@gof.decimal, TRUE)
+# 
+#    predpr <- predict(x, type = c("response"))
+#    roccurve <- pROC::roc(x$y ~ predpr)
+# 
+#     tr@gof <- c(tr@gof, roccurve$auc)
+#     tr@gof.names <- c(tr@gof.names, "AUC")
+#     tr@gof.decimal <- c(tr@gof.decimal, TRUE)
+# 
+#     tr
+#   })
+
+
+
+
+```
+
+
+```{r echo = F, eval = F}
+# 
+# 
+# 
+# 
+# res1 <- glm("non_resp ~ edu_9 + agecat_9 +
+#           female_9 + partner_9 + urban_9 + london_9 + north_9 +
+#            f2f_nomiss_9 + any_nonresp",
+#   data = ip_data3, family=binomial())
+# 
+# 
+# res2 <- glm("non_resp ~ edu_9 + agecat_9 +
+#           female_9 + partner_9 + urban_9 + london_9 + north_9 +
+#            f2f_nomiss_9 + any_nonresp + class",
+#            data = ip_data3, family = binomial())
+# 
+# 
+# 
+# res3 <- glm("f2f ~ edu_9 + agecat_9 +
+#           female_9 + partner_9 + urban_9 + london_9 + north_9 +
+#            f2f_nomiss_9 + any_nonresp", family = binomial(),
+#            data = ip_data3)
+# 
+# res4 <- glm("f2f ~ edu_9 + agecat_9 +
+#           female_9 + partner_9 + urban_9 + london_9 + north_9 +
+#            f2f_nomiss_9 + any_nonresp + class",
+#              data = ip_data3, family = binomial())
+# 
+# 
+# res5 <- glm("f2f_offer ~ edu_9 + agecat_9 +
+#           female_9 + partner_9 + urban_9 + london_9 + north_9 +
+#            f2f_nomiss_9 + any_nonresp", family = binomial(),
+#             data = ip_data3)
+# 
+# res6 <- glm("f2f_offer ~ edu_9 + agecat_9 +
+#           female_9 + partner_9 + urban_9 + london_9 + north_9 +
+#            f2f_nomiss_9 + any_nonresp + class",
+#             data = ip_data3, family = binomial())
+# 
+# mod_list <- list(res1, res2, res3, res4, res5, res6)
+# 
+# 
+# labs_res1 <- c("Intercept", "Edu: A level", "Edu: GCSE",
+#                "Edu: Other", "Age: 36-55", "Age: 56-75",
+#                "Age: >75", "Female", "Partner", "Urban",
+#                "London", "North", "Any non-response", "Wave 9 f2f",
+#                "Class: 'Swtich and non-response'",
+#                "Class: Fast switchers",
+#                "Class: Slow switchers",
+#                "Class: Face to face respondents")
+# # 
+# # 
+# # fit_indicators <- map(mod_list, function(x) {
+# #   predpr <- predict(x, type = c("response"))
+# #   roccurve <- pROC::roc(x$y ~ predpr)
+# #   
+# #   glance(x) %>% 
+# #     mutate(RMSE = qpcR::RMSE(x),
+# #            AIC = x$aic,
+# #            n = nrow(model.frame(x)),
+# #            AUC = roccurve$auc)
+# # }) %>% 
+# #   reduce(rbind)
+# 
+# print_models <- mod_list %>% 
+#   map(function(x) {
+#     
+#     tr <- extract(x)
+#     tr@gof <- c(tr@gof, qpcR::RMSE(x))
+#     tr@gof.names <- c(tr@gof.names, "RMSE")
+#     tr@gof.decimal <- c(tr@gof.decimal, TRUE)
+#     
+#    predpr <- predict(x, type = c("response"))
+#    roccurve <- pROC::roc(x$y ~ predpr)
+#     
+#     tr@gof <- c(tr@gof, roccurve$auc)
+#     tr@gof.names <- c(tr@gof.names, "AUC")
+#     tr@gof.decimal <- c(tr@gof.decimal, TRUE)
+#     
+#     tr
+#   })
+# 
+# htmlreg(print_models, 
+#         caption = "Explaining response and mode in wave 10",
+#         custom.model.names = c("Response m1", "Response m2", 
+#                                "Face to face m1", "Face to face m2",
+#                                "Offered face to face m1", 
+#                                "Offered face to face m2"),
+#         custom.coef.names = c(labs_res1),
+#         custom.note = "Degree, under 36, rural, male, wave in wave 9 and
+#         Class: Web respondents",
+#         doctype = F, include.rmse = TRUE, include.rsquared = T)
+
+# add asjuted r2 and rmse
+# 
+# 
+# rocs <- map(mod_list, function(x){
+#   predpr <- predict(x, type = c("response"))
+#   roccurve <- pROC::roc(x$y ~ predpr)
+# })
+# 
+# res1$aic
+# res1$deviance
+# map(rocs, function(x) x$auc) %>% unlist()
+# 
+# res_list <- list(res1, res2, res3, res4, res5, res6)
+# 
+# 
+# map(res_list, function(x) {
+#   predpr <- predict(x, type = c("response"))
+#   roccurve <- pROC::roc(x$y ~ predpr)
+#   
+#   glance(x) %>% 
+#     mutate(RMSE = qpcR::RMSE(x),
+#            AIC = x$aic,
+#            n = nrow(model.frame(x)),
+#            AUC = roccurve$auc)
+# }) %>% 
+#   reduce(rbind)
+# 
+# 
+# 
+# res1 %>% glance() %>% 
+#   mutate(RMSE = qpcR::RMSE(res1),
+#          AIC = res1$aic)
+# 
+# plot(rocs[[1]])
+# plot(rocs[[2]])
+# 
+# 
+# library(pROC)
+# pred1 = predict(res1)
+# pred2 = predict(res2)
+# 
+# roc1 = roc(res1$y, pred1)
+# roc2 = roc(res2$y, pred2)
+# 
+# 
+# plot(roc1)
+# plot(roc1, col = 1, lty = 2, main = "ROC")
+# plot(roc2, col = 4, lty = 3, add = TRUE)
+# 
+# 
+# 
+# tibble(specificities = roccurve$specificities,
+#        sensitivities = roccurve$sensitivities,
+#        thresh = roccurve$thresholds) %>% 
+#   ggplot(aes(specificities, thresh)) + geom_line()
+# plot(roccurve)
+
 
 ```
 

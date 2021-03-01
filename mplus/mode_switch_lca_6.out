@@ -1,35 +1,52 @@
-Mplus VERSION 8.2
+Mplus VERSION 8
 MUTHEN & MUTHEN
-01/14/2019   3:35 PM
+03/01/2021   8:12 AM
 
 INPUT INSTRUCTIONS
 
   TITLE: latent class analysis of mode switch;
-  DATA: FILE = "ip_data.dat";
+  DATA: FILE = "ip_data2.dat";
   VARIABLE:
-  NAMES = pidp indmode_5 ivfio_5 mm_5 sum_var_5 f2f_5 f2f_nomiss_5 non_resp_5
-       indmode_6 ivfio_6 mm_6 sum_var_6 f2f_6 f2f_nomiss_6 non_resp_6 indmode_7
-       ivfio_7 mm_7 sum_var_7 f2f_7 f2f_nomiss_7 non_resp_7 indmode_8 ivfio_8 mm_8
-       sum_var_8 f2f_8 f2f_nomiss_8 non_resp_8 indmode_9 ivfio_9 mm_9 sum_var_9 f2f_9
-       f2f_nomiss_9 non_resp_9 indmode_10 ivfio_10 mm_10 sum_var_10 f2f_10
-       f2f_nomiss_10 non_resp_10 inwork_4 edu_4 agecat_4 female_4 white_4 partner_4
-       sf1_4 longill_4 london_4 north_4 urban_4 refresh_4 Higher_4 Alevel_4 GCSE_4
-       Other_4 age_35_4 age_55_4 age_75_4 age_102_4 inwork_9 edu_9 agecat_9 female_9
-       white_9 partner_9 sf1_9 longill_9 london_9 north_9 urban_9 refresh_9 Higher_9
-       Alevel_9 GCSE_9 Other_9 age_35_9 age_55_9 age_75_9 age_102_9 f2f f2f_nomiss
-       non_resp;
-  USEVARIABLES ARE
-      f2f_nomiss_5 f2f_nomiss_6 f2f_nomiss_7 f2f_nomiss_8 f2f_nomiss_9
-      non_resp_5 non_resp_6 non_resp_7 non_resp_8 non_resp_9;
-  CATEGORICAL ARE
-      f2f_nomiss_5 f2f_nomiss_6 f2f_nomiss_7 f2f_nomiss_8 f2f_nomiss_9
-      non_resp_5 non_resp_6 non_resp_7 non_resp_8 non_resp_9;
+  NAMES = pidp hidp_5 indmode_5 mm_5 ivfho_5 f2f_5 f2f_nomiss_5 non_resp_5 non_resp2_5
+       out_5 hidp_6 indmode_6 mm_6 ivfho_6 f2f_6 f2f_nomiss_6 non_resp_6 non_resp2_6
+       out_6 hidp_7 indmode_7 mm_7 ivfho_7 f2f_7 f2f_nomiss_7 non_resp_7 non_resp2_7
+       out_7 hidp_8 indmode_8 mm_8 ivfho_8 f2f_8 f2f_nomiss_8 non_resp_8 non_resp2_8
+       out_8 hidp_9 indmode_9 mm_9 ivfho_9 f2f_9 f2f_nomiss_9 non_resp_9 non_resp2_9
+       out_9 hidp_10 indmode_10 mm_10 ivfho_10 f2f_10 f2f_nomiss_10 non_resp_10
+       non_resp2_10 out_10 ivfio_5 ivfio_6 ivfio_7 ivfio_8 ivfio_9 ivfio_10 inwork_4
+       edu_4 agecat_4 female_4 white_4 partner_4 sf1_4 longill_4 london_4 north_4
+       urban_4 refresh_4 Higher_4 alevel_4 GCSE_4 Other_4 age_35_4 age_55_4 age_75_4
+       age_102_4 inwork_9 edu_9 agecat_9 female_9 white_9 partner_9 sf1_9 longill_9
+       london_9 north_9 urban_9 refresh_9 Higher_9 alevel_9 GCSE_9 Other_9 age_35_9
+       age_55_9 age_75_9 age_102_9 hidp net_d net_n net_s net_m mobile work vol_y
+       vol_m don_y don_m vote_y vote_m p_web p_f2f p_tel p_mail p_other coop coop_m
+       suspi_n suspi_m mm2 ncalls ncall2 ncall6 ncall30 f2f f2f_nomiss non_resp
+       f2f_offer id f2f2_5 othernr_5 refuse_5 web_5 f2f2_6 nissue_6 othernr_6 refuse_6
+       web_6 f2f2_7 nissue_7 othernr_7 refuse_7 web_7 f2f2_8 nissue_8 othernr_8
+       refuse_8 web_8 f2f2_9 nissue_9 othernr_9 refuse_9 web_9;
+    AUXILIARY ARE id;
 
+  USEVARIABLES ARE
+      f2f2_5 f2f2_6 f2f2_7 f2f2_8 f2f2_9
+      nissue_6 nissue_7 nissue_8 nissue_9
+      refuse_5 refuse_6 refuse_7 refuse_8 refuse_9
+      othernr_5 othernr_6 othernr_7 othernr_8 othernr_9;
+  CATEGORICAL ARE
+      f2f2_5 f2f2_6 f2f2_7 f2f2_8 f2f2_9
+      nissue_6 nissue_7 nissue_8 nissue_9
+      refuse_5 refuse_6 refuse_7 refuse_8 refuse_9
+      othernr_5 othernr_6 othernr_7 othernr_8 othernr_9;
   MISSING=.;
 
   CLASSES = c (6);
 
   ANALYSIS: TYPE = MIXTURE;
+        Processors = 8(starts);
+        STARTS = 800 400;
+
+  savedata:
+       file is mode_switch_lca_6.dat;
+       save is cprob;
 
 
 
@@ -39,7 +56,7 @@ INPUT INSTRUCTIONS
 *** WARNING
   Data set contains cases with missing on all variables.
   These cases were not included in the analysis.
-  Number of cases with missing on all variables:  2938
+  Number of cases with missing on all variables:  2428
    2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
@@ -49,9 +66,9 @@ latent class analysis of mode switch;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         796
+Number of observations                                        1636
 
-Number of dependent variables                                   10
+Number of dependent variables                                   19
 Number of independent variables                                  0
 Number of continuous latent variables                            0
 Number of categorical latent variables                           1
@@ -59,8 +76,13 @@ Number of categorical latent variables                           1
 Observed dependent variables
 
   Binary and ordered categorical (ordinal)
-   F2F_NOMI    F2F_NOMI    F2F_NOMI    F2F_NOMI    F2F_NOMI    NON_RESP
-   NON_RESP    NON_RESP    NON_RESP    NON_RESP
+   F2F2_5      F2F2_6      F2F2_7      F2F2_8      F2F2_9      NISSUE_6
+   NISSUE_7    NISSUE_8    NISSUE_9    REFUSE_5    REFUSE_6    REFUSE_7
+   REFUSE_8    REFUSE_9    OTHERNR_    OTHERNR_    OTHERNR_    OTHERNR_
+   OTHERNR_
+
+Observed auxiliary variables
+   ID
 
 Categorical latent variables
    C
@@ -96,8 +118,8 @@ Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
 Random Starts Specifications
-  Number of initial stage random starts                         20
-  Number of final stage optimizations                            4
+  Number of initial stage random starts                        800
+  Number of final stage optimizations                          400
   Number of initial stage iterations                            10
   Initial stage convergence criterion                    0.100D+01
   Random starts scale                                    0.500D+01
@@ -105,7 +127,7 @@ Random Starts Specifications
 Link                                                         LOGIT
 
 Input data file(s)
-  ip_data.dat
+  ip_data2.dat
 Input data format  FREE
 
 
@@ -123,74 +145,517 @@ Minimum covariance coverage value   0.100
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
-    F2F_NOMI
-      Category 1    0.557          443.000
-      Category 2    0.443          353.000
-    F2F_NOMI
-      Category 1    0.691          550.000
-      Category 2    0.309          246.000
-    F2F_NOMI
-      Category 1    0.795          633.000
-      Category 2    0.205          163.000
-    F2F_NOMI
-      Category 1    0.784          624.000
-      Category 2    0.216          172.000
-    F2F_NOMI
-      Category 1    0.847          674.000
-      Category 2    0.153          122.000
-    NON_RESP
-      Category 1    0.879          700.000
-      Category 2    0.121           96.000
-    NON_RESP
-      Category 1    0.912          726.000
-      Category 2    0.088           70.000
-    NON_RESP
-      Category 1    0.896          713.000
-      Category 2    0.104           83.000
-    NON_RESP
-      Category 1    0.915          728.000
-      Category 2    0.085           68.000
-    NON_RESP
-      Category 1    0.917          730.000
-      Category 2    0.083           66.000
+    F2F2_5
+      Category 1    0.629         1029.000
+      Category 2    0.371          607.000
+    F2F2_6
+      Category 1    0.740         1210.000
+      Category 2    0.260          426.000
+    F2F2_7
+      Category 1    0.820         1342.000
+      Category 2    0.180          294.000
+    F2F2_8
+      Category 1    0.830         1358.000
+      Category 2    0.170          278.000
+    F2F2_9
+      Category 1    0.882         1443.000
+      Category 2    0.118          193.000
+    NISSUE_6
+      Category 1    0.984         1610.000
+      Category 2    0.016           26.000
+    NISSUE_7
+      Category 1    0.911         1490.000
+      Category 2    0.089          146.000
+    NISSUE_8
+      Category 1    0.802         1312.000
+      Category 2    0.198          324.000
+    NISSUE_9
+      Category 1    0.672         1099.000
+      Category 2    0.328          537.000
+    REFUSE_5
+      Category 1    0.934         1528.000
+      Category 2    0.066          108.000
+    REFUSE_6
+      Category 1    0.885         1448.000
+      Category 2    0.115          188.000
+    REFUSE_7
+      Category 1    0.862         1411.000
+      Category 2    0.138          225.000
+    REFUSE_8
+      Category 1    0.907         1484.000
+      Category 2    0.093          152.000
+    REFUSE_9
+      Category 1    0.966         1580.000
+      Category 2    0.034           56.000
+    OTHERNR_
+      Category 1    0.861         1409.000
+      Category 2    0.139          227.000
+    OTHERNR_
+      Category 1    0.881         1442.000
+      Category 2    0.119          194.000
+    OTHERNR_
+      Category 1    0.831         1359.000
+      Category 2    0.169          277.000
+    OTHERNR_
+      Category 1    0.882         1443.000
+      Category 2    0.118          193.000
+    OTHERNR_
+      Category 1    0.913         1494.000
+      Category 2    0.087          142.000
 
 
 RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
 
 Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
 
-           -2470.479  637345           19
-           -2470.483  285380           1
-           -2470.483  253358           2
-           -2484.930  76974            16
+           -9491.441  848969           173
+           -9497.036  913639           162
+           -9499.247  441191           361
+           -9499.247  279850           555
+           -9499.943  341960           685
+           -9499.943  830570           369
+           -9500.603  210870           383
+           -9500.868  963053           43
+           -9501.374  130011           587
+           -9501.374  882750           646
+           -9501.815  170118           238
+           -9501.873  156536           245
+           -9501.874  22089            143
+           -9501.874  570681           777
+           -9502.752  520865           763
+           -9502.927  252346           528
+           -9502.927  933578           506
+           -9502.927  432148           30
+           -9502.939  580405           286
+           -9503.495  418686           338
+           -9503.617  4091             548
+           -9503.654  82357            339
+           -9503.823  982520           737
+           -9503.834  407108           366
+           -9504.412  173191           422
+           -9504.412  207896           25
+           -9504.428  85462            51
+           -9504.672  407168           44
+           -9504.672  802682           419
+           -9504.672  937588           293
+           -9504.706  314084           81
+           -9505.049  910224           580
+           -9505.267  246261           38
+           -9505.591  638577           769
+           -9505.944  458181           189
+           -9506.470  266038           672
+           -9506.601  887676           22
+           -9506.601  267983           228
+           -9506.687  951709           348
+           -9506.948  263221           447
+           -9507.311  923437           398
+           -9507.498  556929           734
+           -9507.735  153053           378
+           -9508.055  699810           571
+           -9508.222  921023           782
+           -9508.543  195353           225
+           -9508.543  789985           67
+           -9508.561  496710           386
+           -9508.617  224950           455
+           -9508.957  695155           150
+           -9509.531  965639           463
+           -9509.819  399848           220
+           -9509.866  920593           611
+           -9509.875  777045           377
+           -9510.143  609089           241
+           -9510.202  717754           180
+           -9510.209  322790           636
+           -9510.209  377584           630
+           -9510.210  231400           738
+           -9510.210  871438           561
+           -9510.294  247912           537
+           -9510.395  552272           654
+           -9511.264  30098            209
+           -9511.536  872743           374
+           -9511.616  226322           478
+           -9511.977  712702           684
+           -9512.362  349360           464
+           -9512.380  926797           406
+           -9512.459  238906           430
+           -9512.460  415931           10
+           -9512.492  565819           65
+           -9513.272  154575           539
+           -9513.286  88437            761
+           -9513.394  178181           753
+           -9513.644  685268           596
+           -9514.122  783110           72
+           -9514.939  117731           570
+           -9515.183  507218           613
+           -9516.085  722748           346
+           -9516.575  148918           682
+           -9516.589  438144           271
+           -9516.599  561664           392
+           -9516.897  314757           345
+           -9516.947  3307             735
+           -9516.985  434915           552
+           -9517.089  195873           6
+           -9517.299  313407           132
+           -9517.369  22874            588
+           -9517.371  850840           232
+           -9517.471  138695           783
+           -9517.758  237332           661
+           -9518.046  945065           255
+           -9518.050  535804           111
+           -9518.132  21345            199
+           -9518.394  206099           363
+           -9518.477  629320           222
+           -9518.477  574412           679
+           -9518.477  76974            16
+           -9519.118  595153           230
+           -9519.725  502157           799
+           -9519.882  603842           61
+           -9519.899  782200           84
+           -9520.662  878749           728
+           -9521.021  161421           519
+           -9521.595  579138           706
+           -9522.391  714997           399
+           -9522.397  569131           26
+           -9522.543  342019           301
+           -9523.456  190339           102
+           -9523.690  268217           83
+           -9523.818  417035           149
+           -9523.841  341041           34
+           -9524.194  194143           510
+           -9524.225  741484           441
+           -9524.498  350608           334
+           -9524.512  351622           551
+           -9524.695  801717           364
+           -9525.335  405371           569
+           -9525.472  631413           439
+           -9525.958  366533           484
+           -9526.016  197223           332
+           -9526.673  625191           350
+           -9526.673  836066           372
+           -9526.678  188640           451
+           -9528.551  443917           60
+           -9528.687  97158            205
+           -9528.850  312754           562
+           -9529.018  667250           318
+           -9529.186  822698           621
+           -9529.788  831410           567
+           -9529.980  344422           296
+           -9530.429  848163           47
+           -9530.429  478421           311
+           -9530.661  175199           247
+           -9530.815  760878           249
+           -9531.132  599729           658
+           -9531.165  147440           514
+           -9531.454  508482           446
+           -9531.845  940533           764
+           -9532.541  220492           743
+           -9532.970  209031           632
+           -9533.067  475420           71
+           -9533.087  217130           443
+           -9533.638  246575           291
+           -9533.841  399508           415
+           -9533.841  775884           639
+           -9534.292  51375            148
+           -9535.170  152496           123
+           -9535.404  509733           130
+           -9535.829  802779           122
+           -9536.173  754100           56
+           -9536.173  823392           479
+           -9537.307  486646           586
+           -9537.307  957392           79
+           -9537.307  35191            703
+           -9537.307  211281           292
+           -9537.865  327140           678
+           -9537.865  437181           135
+           -9538.490  662983           666
+           -9539.170  529496           343
+           -9539.807  416463           467
+           -9540.293  931874           141
+           -9540.388  862607           468
+           -9540.390  355674           540
+           -9540.764  22075            659
+           -9540.764  851945           18
+           -9541.310  76337            76
+           -9541.573  46502            714
+           -9541.785  657994           788
+           -9541.794  263268           165
+           -9542.519  702492           718
+           -9542.535  137305           379
+           -9542.627  821011           161
+           -9544.250  833196           715
+           -9544.340  971853           402
+           -9544.472  217744           326
+           -9544.714  488581           688
+           -9544.748  291112           645
+           -9544.806  856536           144
+           -9544.908  562716           300
+           -9545.200  264081           186
+           -9545.302  551340           766
+           -9545.344  259507           53
+           -9545.724  853781           716
+           -9546.409  696830           668
+           -9546.596  991329           182
+           -9546.698  618760           489
+           -9547.278  804104           566
+           -9547.310  89970            223
+           -9548.276  988761           475
+           -9548.536  950604           172
+           -9548.536  792389           746
+           -9548.612  714455           476
+           -9549.276  319144           176
+           -9551.067  762461           425
+           -9551.325  405079           68
+           -9552.012  900268           327
+           -9552.045  930323           267
+           -9552.414  732596           320
+           -9552.628  646573           741
+           -9553.053  569833           85
+           -9553.126  622860           259
+           -9553.192  321390           133
+           -9553.702  531546           702
+           -9553.728  375590           438
+           -9553.966  466971           109
+           -9554.132  652266           490
+           -9554.375  413564           535
+           -9554.452  392766           331
+           -9554.452  801065           393
+           -9555.764  736574           414
+           -9555.947  354208           196
+           -9556.835  813779           92
+           -9557.802  347515           24
+           -9557.850  748692           204
+           -9558.540  378393           509
+           -9558.540  282464           283
+           -9558.959  387701           275
+           -9559.240  132336           362
+           -9559.472  113138           585
+           -9559.595  898745           466
+           -9560.666  847088           750
+           -9561.150  848590           694
+           -9561.691  588923           606
+           -9561.808  691234           250
+           -9562.788  81117            305
+           -9563.236  164305           128
+           -9563.462  442072           625
+           -9564.599  436460           89
+           -9564.659  364676           27
+           -9565.004  999211           628
+           -9565.153  91231            727
+           -9565.426  549244           756
+           -9565.544  117587           572
+           -9565.917  241197           747
+           -9566.287  638611           524
+           -9566.738  286735           175
+           -9566.761  726035           191
+           -9566.930  354624           448
+           -9567.393  352277           42
+           -9567.474  100874           108
+           -9567.580  526324           178
+           -9567.901  761633           50
+           -9568.368  794236           127
+           -9568.531  50887            389
+           -9568.838  659832           754
+           -9569.252  644297           340
+           -9569.597  566739           575
+           -9570.112  521575           313
+           -9570.565  383902           673
+           -9571.029  689529           516
+           -9571.050  752769           253
+           -9571.979  551639           55
+           -9572.456  608849           224
+           -9573.128  535063           329
+           -9574.032  146900           391
+           -9574.555  996231           310
+           -9575.082  84013            598
+           -9575.506  150531           154
+           -9576.519  212934           568
+           -9576.667  607072           717
+           -9576.814  967237           48
+           -9577.116  136842           58
+           -9577.486  155622           507
+           -9577.521  791285           416
+           -9578.307  820977           776
+           -9578.420  404042           675
+           -9579.349  587946           120
+           -9579.743  435287           623
+           -9579.786  576596           99
+           -9582.200  512836           289
+           -9582.518  455617           242
+           -9583.736  7195             697
+           -9585.203  314034           513
+           -9585.865  373702           669
+           -9586.819  369602           146
+           -9586.847  232226           235
+           -9586.950  995875           547
+           -9588.355  395754           388
+           -9588.996  677062           680
+           -9589.292  297518           166
+           -9589.292  574942           558
+           -9589.975  79945            395
+           -9590.338  166851           638
+           -9591.000  700349           401
+           -9595.318  399380           436
+           -9595.766  491970           563
+           -9597.179  173440           328
+           -9597.207  67009            564
+           -9597.540  476393           705
+           -9597.586  414828           322
+           -9597.795  118438           601
+           -9597.838  606576           151
+           -9598.469  160326           546
+           -9598.677  252949           487
+           -9598.701  609185           181
+           -9598.742  836515           341
+           -9599.456  157351           579
+           -9600.484  456213           160
+           -9600.721  473942           574
+           -9600.916  62835            642
+           -9601.530  216565           474
+           -9601.627  440841           118
+           -9601.630  349263           263
+           -9601.962  566687           597
+           -9602.255  227563           63
+           -9603.174  408713           450
+           -9603.478  117391           710
+           -9604.843  65651            214
+           -9605.313  291149           536
+           -9605.468  617243           237
+           -9605.487  127215           9
+           -9607.391  576220           115
+           -9608.269  134830           780
+           -9609.103  605358           321
+           -9609.380  320494           465
+           -9610.076  673496           218
+           -9610.203  123985           248
+           -9610.433  476498           179
+           -9610.760  545108           667
+           -9610.760  887580           493
+           -9610.948  814975           129
+           -9611.040  319575           499
+           -9611.202  704798           530
+           -9611.685  371246           101
+           -9613.675  107446           12
+           -9613.698  57226            208
+           -9613.744  27071            15
+           -9614.057  335485           496
+           -9615.425  749635           420
+           -9616.950  292884           103
+           -9617.088  995913           787
+           -9618.472  7959             256
+           -9619.091  276696           676
+           -9620.250  835767           210
+           -9621.359  92689            304
+           -9621.824  213189           605
+           -9622.135  848356           602
+           -9622.594  351807           617
+           -9625.048  798839           312
+           -9625.857  723035           538
+           -9626.390  485483           498
+           -9626.605  58507            793
+           -9628.776  763285           620
+           -9631.094  888905           444
+           -9631.246  790452           303
+           -9631.647  232559           136
+           -9631.742  285380           1
+           -9632.594  276102           599
+           -9632.654  534193           689
+           -9632.898  73576            213
+           -9633.257  824126           287
+           -9636.240  370481           742
+           -9636.699  307843           664
+           -9636.811  59963            670
+           -9639.973  499150           216
+           -9641.650  317868           740
+           -9641.657  741888           138
+           -9641.826  483369           270
+           -9642.847  536551           696
+           -9642.949  721392           768
+           -9643.756  69413            472
+           -9644.622  548673           732
+           -9645.847  15715            274
+           -9646.836  840031           276
+           -9647.336  638977           643
+           -9649.712  701525           239
+           -9650.981  724519           333
+           -9651.817  260601           36
+           -9652.375  484501           163
+           -9654.303  17359            227
+           -9655.422  12477            155
+           -9658.085  637095           207
+           -9658.751  204959           695
+           -9660.178  876943           650
+           -9661.963  783102           433
+           -9664.490  802256           477
+           -9665.104  853195           431
+           -9667.786  327475           518
+           -9668.241  348637           749
+           -9669.408  114433           708
+           -9670.130  68850            462
+           -9671.493  647617           725
+           -9671.558  402224           91
+           -9671.874  298275           418
+           -9673.405  294811           637
+           -9683.212  765586           709
+           -9685.600  900631           774
+           -9686.013  158612           581
+           -9688.789  958107           790
+           -9688.860  800454           751
+           -9690.181  391179           78
+           -9693.745  953843           651
+           -9695.940  505879           424
+           -9699.009  355254           796
+           -9699.577  379729           512
+           -9711.241  392751           480
+           -9712.650  533738           11
+           -9743.604  124999           96
+           -9773.696  253358           2
 
 
 
-THE BEST LOGLIKELIHOOD VALUE HAS BEEN REPLICATED.  RERUN WITH AT LEAST TWICE THE
-RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICATED.
+     WARNING:  THE BEST LOGLIKELIHOOD VALUE WAS NOT REPLICATED.  THE
+     SOLUTION MAY NOT BE TRUSTWORTHY DUE TO LOCAL MAXIMA.  INCREASE THE
+     NUMBER OF RANDOM STARTS.
 
      IN THE OPTIMIZATION, ONE OR MORE LOGIT THRESHOLDS APPROACHED AND WERE SET
      AT THE EXTREME VALUES.  EXTREME VALUES ARE -15.000 AND 15.000.
      THE FOLLOWING THRESHOLDS WERE SET AT THESE VALUES:
-     * THRESHOLD 1 OF CLASS INDICATOR F2F_NOMI FOR CLASS 1 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR F2F_NOMI FOR CLASS 1 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR F2F_NOMI FOR CLASS 1 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR NON_RESP FOR CLASS 1 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR NON_RESP FOR CLASS 2 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR F2F_NOMI FOR CLASS 3 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR F2F_NOMI FOR CLASS 4 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR F2F_NOMI FOR CLASS 4 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR F2F_NOMI FOR CLASS 4 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR F2F_NOMI FOR CLASS 4 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR NON_RESP FOR CLASS 4 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR NON_RESP FOR CLASS 4 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR NON_RESP FOR CLASS 4 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR NON_RESP FOR CLASS 5 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR NON_RESP FOR CLASS 5 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR NON_RESP FOR CLASS 5 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR F2F_NOMI FOR CLASS 6 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR F2F_NOMI FOR CLASS 6 AT ITERATION 95
-     * THRESHOLD 1 OF CLASS INDICATOR NON_RESP FOR CLASS 6 AT ITERATION 95
+     * THRESHOLD 1 OF CLASS INDICATOR F2F2_7 FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR F2F2_8 FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR F2F2_9 FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_7 FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_8 FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_9 FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR REFUSE_7 FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR REFUSE_8 FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR REFUSE_9 FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR OTHERNR_ FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR OTHERNR_ FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR OTHERNR_ FOR CLASS 1 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_6 FOR CLASS 2 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_7 FOR CLASS 2 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_8 FOR CLASS 2 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR REFUSE_5 FOR CLASS 2 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR REFUSE_8 FOR CLASS 2 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR OTHERNR_ FOR CLASS 2 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR F2F2_8 FOR CLASS 4 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR F2F2_9 FOR CLASS 4 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_6 FOR CLASS 4 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_7 FOR CLASS 4 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_8 FOR CLASS 4 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_9 FOR CLASS 4 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR REFUSE_8 FOR CLASS 4 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR REFUSE_9 FOR CLASS 4 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR OTHERNR_ FOR CLASS 4 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR OTHERNR_ FOR CLASS 4 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_6 FOR CLASS 5 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_7 FOR CLASS 5 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR REFUSE_5 FOR CLASS 5 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR REFUSE_6 FOR CLASS 5 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR REFUSE_9 FOR CLASS 5 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR OTHERNR_ FOR CLASS 5 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR OTHERNR_ FOR CLASS 5 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_6 FOR CLASS 6 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_7 FOR CLASS 6 AT ITERATION 70
+     * THRESHOLD 1 OF CLASS INDICATOR NISSUE_8 FOR CLASS 6 AT ITERATION 70
 
 
 
@@ -198,39 +663,28 @@ RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICA
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
 
+     THE CHI-SQUARE TEST CANNOT BE COMPUTED BECAUSE THE FREQUENCY TABLE FOR THE
+     LATENT CLASS INDICATOR MODEL PART IS TOO LARGE.
+
+
 
 
 MODEL FIT INFORMATION
 
-Number of Free Parameters                       65
+Number of Free Parameters                      119
 
 Loglikelihood
 
-          H0 Value                       -2470.479
-          H0 Scaling Correction Factor      1.1339
+          H0 Value                       -9491.441
+          H0 Scaling Correction Factor      1.0393
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    5070.959
-          Bayesian (BIC)                  5375.133
-          Sample-Size Adjusted BIC        5168.723
+          Akaike (AIC)                   19220.882
+          Bayesian (BIC)                 19863.484
+          Sample-Size Adjusted BIC       19485.441
             (n* = (n + 2) / 24)
-
-Chi-Square Test of Model Fit for the Binary and Ordered Categorical
-(Ordinal) Outcomes
-
-          Pearson Chi-Square
-
-          Value                            839.238
-          Degrees of Freedom                   958
-          P-Value                           0.9976
-
-          Likelihood Ratio Chi-Square
-
-          Value                            367.770
-          Degrees of Freedom                   958
-          P-Value                           1.0000
 
 
 
@@ -240,12 +694,12 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1         32.10290          0.04033
-       2        138.34994          0.17381
-       3         84.11913          0.10568
-       4          9.09409          0.01142
-       5        480.28209          0.60337
-       6         52.05185          0.06539
+       1        142.99942          0.08741
+       2        231.36937          0.14142
+       3        361.64505          0.22105
+       4        133.06562          0.08134
+       5        190.88646          0.11668
+       6        576.03408          0.35210
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -254,12 +708,12 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1         32.10290          0.04033
-       2        138.34994          0.17381
-       3         84.11913          0.10568
-       4          9.09409          0.01142
-       5        480.28209          0.60337
-       6         52.05185          0.06539
+       1        142.99942          0.08741
+       2        231.36986          0.14142
+       3        361.64532          0.22105
+       4        133.06533          0.08134
+       5        190.88620          0.11668
+       6        576.03388          0.35210
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -270,17 +724,17 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1               33          0.04146
-       2              140          0.17588
-       3               84          0.10553
-       4                9          0.01131
-       5              488          0.61307
-       6               42          0.05276
+       1              143          0.08741
+       2              231          0.14120
+       3              338          0.20660
+       4              128          0.07824
+       5              205          0.12531
+       6              591          0.36125
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.935
+     Entropy                         0.900
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -288,12 +742,12 @@ by Latent Class (Column)
 
            1        2        3        4        5        6
 
-    1   0.962    0.000    0.012    0.000    0.000    0.026
-    2   0.000    0.939    0.048    0.000    0.008    0.005
-    3   0.004    0.053    0.881    0.000    0.062    0.000
-    4   0.001    0.000    0.000    0.999    0.000    0.000
-    5   0.000    0.004    0.006    0.000    0.971    0.019
-    6   0.000    0.009    0.000    0.002    0.004    0.985
+    1   1.000    0.000    0.000    0.000    0.000    0.000
+    2   0.000    0.950    0.016    0.000    0.024    0.011
+    3   0.000    0.010    0.930    0.000    0.017    0.043
+    4   0.000    0.000    0.001    0.989    0.009    0.000
+    5   0.000    0.023    0.053    0.031    0.856    0.038
+    6   0.000    0.006    0.055    0.000    0.005    0.933
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -301,12 +755,12 @@ by Latent Class (Row)
 
            1        2        3        4        5        6
 
-    1   0.989    0.000    0.011    0.000    0.000    0.000
-    2   0.000    0.950    0.032    0.000    0.015    0.003
-    3   0.005    0.080    0.880    0.000    0.035    0.000
-    4   0.000    0.000    0.000    0.989    0.000    0.011
-    5   0.000    0.002    0.011    0.000    0.987    0.000
-    6   0.017    0.013    0.000    0.000    0.175    0.794
+    1   1.000    0.000    0.000    0.000    0.000    0.000
+    2   0.000    0.949    0.015    0.000    0.020    0.016
+    3   0.000    0.010    0.869    0.000    0.030    0.091
+    4   0.000    0.000    0.000    0.952    0.048    0.000
+    5   0.000    0.028    0.030    0.006    0.919    0.016
+    6   0.000    0.004    0.025    0.000    0.013    0.957
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -314,12 +768,12 @@ by Latent Class (Row)
 
               1        2        3        4        5        6
 
-    1      8.244   -5.560    3.732   -0.506   -5.560    0.000
-    2     -7.950    5.815    2.430   -7.950    1.641    0.000
-    3      8.439   11.295   13.688    0.000   10.463    0.000
-    4     -9.298   -9.298   -9.298    4.507   -9.298    0.000
-    5     -5.726    1.971    3.559   -5.726    8.077    0.000
-    6     -3.861   -4.082  -13.585  -13.585   -1.510    0.000
+    1     13.816    0.000    0.000    0.000    0.000    0.000
+    2     -9.690    4.073   -0.070   -9.690    0.222    0.000
+    3    -10.978   -2.197    2.262   -5.215   -1.110    0.000
+    4      0.000    0.000    0.000   13.766   10.783    0.000
+    5     -9.689    0.568    0.635   -0.967    4.042    0.000
+    6    -13.772   -5.420   -3.645  -13.772   -4.266    0.000
 
 
 MODEL RESULTS
@@ -330,653 +784,1178 @@ MODEL RESULTS
 Latent Class 1
 
  Thresholds
-    F2F_NOMI$1        -2.284      0.632     -3.613      0.000
-    F2F_NOMI$1        -3.299      2.846     -1.159      0.246
-    F2F_NOMI$1        15.000      0.000    999.000    999.000
-    F2F_NOMI$1        15.000      0.000    999.000    999.000
-    F2F_NOMI$1        15.000      0.000    999.000    999.000
-    NON_RESP$1        -1.074      0.537     -1.999      0.046
-    NON_RESP$1        -1.671      0.883     -1.892      0.059
-    NON_RESP$1        -3.618      1.258     -2.875      0.004
-    NON_RESP$1        -4.505      5.309     -0.849      0.396
-    NON_RESP$1       -15.000      0.000    999.000    999.000
+    F2F2_5$1           0.981      0.188      5.224      0.000
+    F2F2_6$1           3.318      0.455      7.288      0.000
+    F2F2_7$1          15.000      0.000    999.000    999.000
+    F2F2_8$1          15.000      0.000    999.000    999.000
+    F2F2_9$1          15.000      0.000    999.000    999.000
+    NISSUE_6$1         1.601      0.224      7.155      0.000
+    NISSUE_7$1       -15.000      0.000    999.000    999.000
+    NISSUE_8$1       -15.000      0.000    999.000    999.000
+    NISSUE_9$1       -15.000      0.000    999.000    999.000
+    REFUSE_5$1         1.652      0.228      7.258      0.000
+    REFUSE_6$1         0.714      0.178      4.012      0.000
+    REFUSE_7$1        15.000      0.000    999.000    999.000
+    REFUSE_8$1        15.000      0.000    999.000    999.000
+    REFUSE_9$1        15.000      0.000    999.000    999.000
+    OTHERNR_$1         1.204      0.198      6.066      0.000
+    OTHERNR_$1         0.411      0.171      2.408      0.016
+    OTHERNR_$1        15.000      0.000    999.000    999.000
+    OTHERNR_$1        15.000      0.000    999.000    999.000
+    OTHERNR_$1        15.000      0.000    999.000    999.000
 
 Latent Class 2
 
  Thresholds
-    F2F_NOMI$1        -1.861      0.285     -6.542      0.000
-    F2F_NOMI$1        -1.148      0.249     -4.612      0.000
-    F2F_NOMI$1        -1.228      0.399     -3.074      0.002
-    F2F_NOMI$1        -3.258      0.725     -4.497      0.000
-    F2F_NOMI$1        -1.182      0.284     -4.157      0.000
-    NON_RESP$1         2.709      0.456      5.941      0.000
-    NON_RESP$1         3.416      1.448      2.359      0.018
-    NON_RESP$1         2.562      0.786      3.258      0.001
-    NON_RESP$1        15.000      0.000    999.000    999.000
-    NON_RESP$1         3.082      0.567      5.436      0.000
+    F2F2_5$1          -1.408      0.202     -6.988      0.000
+    F2F2_6$1          -0.885      0.167     -5.310      0.000
+    F2F2_7$1          -0.800      0.173     -4.635      0.000
+    F2F2_8$1          -3.014      0.570     -5.285      0.000
+    F2F2_9$1          -0.650      0.208     -3.122      0.002
+    NISSUE_6$1        15.000      0.000    999.000    999.000
+    NISSUE_7$1        15.000      0.000    999.000    999.000
+    NISSUE_8$1        15.000      0.000    999.000    999.000
+    NISSUE_9$1         3.329      0.715      4.658      0.000
+    REFUSE_5$1        15.000      0.000    999.000    999.000
+    REFUSE_6$1         4.026      0.646      6.231      0.000
+    REFUSE_7$1         3.192      0.396      8.066      0.000
+    REFUSE_8$1        15.000      0.000    999.000    999.000
+    REFUSE_9$1         4.525      0.688      6.575      0.000
+    OTHERNR_$1         2.534      0.311      8.141      0.000
+    OTHERNR_$1         2.549      0.276      9.235      0.000
+    OTHERNR_$1         1.962      0.233      8.409      0.000
+    OTHERNR_$1        15.000      0.000    999.000    999.000
+    OTHERNR_$1         2.105      0.231      9.120      0.000
 
 Latent Class 3
 
  Thresholds
-    F2F_NOMI$1        -1.902      0.455     -4.180      0.000
-    F2F_NOMI$1       -15.000      0.000    999.000    999.000
-    F2F_NOMI$1         0.921      0.316      2.913      0.004
-    F2F_NOMI$1         1.283      0.759      1.691      0.091
-    F2F_NOMI$1         2.057      0.972      2.116      0.034
-    NON_RESP$1         0.848      0.289      2.928      0.003
-    NON_RESP$1         0.166      0.305      0.545      0.586
-    NON_RESP$1         1.549      0.634      2.442      0.015
-    NON_RESP$1         1.206      0.345      3.499      0.000
-    NON_RESP$1         2.128      0.489      4.355      0.000
+    F2F2_5$1           1.663      0.209      7.954      0.000
+    F2F2_6$1           1.819      0.179     10.137      0.000
+    F2F2_7$1           2.405      0.225     10.678      0.000
+    F2F2_8$1           2.432      0.258      9.415      0.000
+    F2F2_9$1           2.692      0.233     11.549      0.000
+    NISSUE_6$1         5.192      0.713      7.281      0.000
+    NISSUE_7$1         4.784      0.580      8.242      0.000
+    NISSUE_8$1         5.102      0.709      7.191      0.000
+    NISSUE_9$1         0.758      0.131      5.770      0.000
+    REFUSE_5$1         1.482      0.149      9.920      0.000
+    REFUSE_6$1         1.103      0.137      8.065      0.000
+    REFUSE_7$1         0.754      0.137      5.484      0.000
+    REFUSE_8$1         0.801      0.136      5.896      0.000
+    REFUSE_9$1         1.978      0.171     11.594      0.000
+    OTHERNR_$1         0.692      0.140      4.939      0.000
+    OTHERNR_$1         1.355      0.141      9.587      0.000
+    OTHERNR_$1         0.806      0.130      6.209      0.000
+    OTHERNR_$1         0.626      0.128      4.908      0.000
+    OTHERNR_$1         1.048      0.132      7.959      0.000
 
 Latent Class 4
 
  Thresholds
-    F2F_NOMI$1         4.507     44.403      0.101      0.919
-    F2F_NOMI$1        15.000      0.000    999.000    999.000
-    F2F_NOMI$1        15.000      0.000    999.000    999.000
-    F2F_NOMI$1        15.000      0.000    999.000    999.000
-    F2F_NOMI$1        15.000      0.000    999.000    999.000
-    NON_RESP$1        15.000      0.000    999.000    999.000
-    NON_RESP$1        15.000      0.000    999.000    999.000
-    NON_RESP$1        -0.236      0.936     -0.252      0.801
-    NON_RESP$1       -15.000      0.000    999.000    999.000
-    NON_RESP$1        -0.660      1.837     -0.359      0.719
+    F2F2_5$1           0.905      0.303      2.989      0.003
+    F2F2_6$1           2.206      0.683      3.230      0.001
+    F2F2_7$1           4.143      0.775      5.344      0.000
+    F2F2_8$1          15.000      0.000    999.000    999.000
+    F2F2_9$1          15.000      0.000    999.000    999.000
+    NISSUE_6$1        15.000      0.000    999.000    999.000
+    NISSUE_7$1        15.000      0.000    999.000    999.000
+    NISSUE_8$1       -15.000      0.000    999.000    999.000
+    NISSUE_9$1       -15.000      0.000    999.000    999.000
+    REFUSE_5$1         2.225      0.302      7.380      0.000
+    REFUSE_6$1         0.673      0.211      3.196      0.001
+    REFUSE_7$1         0.451      0.193      2.334      0.020
+    REFUSE_8$1        15.000      0.000    999.000    999.000
+    REFUSE_9$1        15.000      0.000    999.000    999.000
+    OTHERNR_$1         1.112      0.235      4.739      0.000
+    OTHERNR_$1         1.031      0.228      4.533      0.000
+    OTHERNR_$1        -0.203      0.190     -1.067      0.286
+    OTHERNR_$1        15.000      0.000    999.000    999.000
+    OTHERNR_$1        15.000      0.000    999.000    999.000
 
 Latent Class 5
 
  Thresholds
-    F2F_NOMI$1         1.628      0.173      9.403      0.000
-    F2F_NOMI$1         2.865      0.264     10.855      0.000
-    F2F_NOMI$1         2.845      0.218     13.057      0.000
-    F2F_NOMI$1         3.347      0.275     12.172      0.000
-    F2F_NOMI$1         4.762      0.564      8.445      0.000
-    NON_RESP$1        15.000      0.000    999.000    999.000
-    NON_RESP$1        15.000      0.000    999.000    999.000
-    NON_RESP$1         3.468      0.283     12.242      0.000
-    NON_RESP$1        15.000      0.000    999.000    999.000
-    NON_RESP$1         4.461      0.457      9.768      0.000
+    F2F2_5$1          -3.565      0.746     -4.777      0.000
+    F2F2_6$1          -1.800      0.348     -5.175      0.000
+    F2F2_7$1           0.600      0.207      2.894      0.004
+    F2F2_8$1           2.883      0.662      4.354      0.000
+    F2F2_9$1           2.736      0.358      7.647      0.000
+    NISSUE_6$1        15.000      0.000    999.000    999.000
+    NISSUE_7$1        15.000      0.000    999.000    999.000
+    NISSUE_8$1         1.155      0.321      3.599      0.000
+    NISSUE_9$1        -0.702      0.268     -2.621      0.009
+    REFUSE_5$1        15.000      0.000    999.000    999.000
+    REFUSE_6$1        15.000      0.000    999.000    999.000
+    REFUSE_7$1         1.190      0.239      4.973      0.000
+    REFUSE_8$1         1.382      0.213      6.499      0.000
+    REFUSE_9$1        15.000      0.000    999.000    999.000
+    OTHERNR_$1        15.000      0.000    999.000    999.000
+    OTHERNR_$1        15.000      0.000    999.000    999.000
+    OTHERNR_$1         1.068      0.219      4.884      0.000
+    OTHERNR_$1         0.699      0.200      3.495      0.000
+    OTHERNR_$1         2.739      0.455      6.017      0.000
 
 Latent Class 6
 
  Thresholds
-    F2F_NOMI$1       -15.000      0.000    999.000    999.000
-    F2F_NOMI$1        15.000      0.000    999.000    999.000
-    F2F_NOMI$1         2.102      0.569      3.692      0.000
-    F2F_NOMI$1         2.436      0.623      3.911      0.000
-    F2F_NOMI$1         2.976      0.721      4.125      0.000
-    NON_RESP$1        -1.014      0.883     -1.148      0.251
-    NON_RESP$1        15.000      0.000    999.000    999.000
-    NON_RESP$1         1.784      1.016      1.756      0.079
-    NON_RESP$1         1.741      0.973      1.789      0.074
-    NON_RESP$1         1.798      0.701      2.564      0.010
+    F2F2_5$1           1.554      0.124     12.491      0.000
+    F2F2_6$1           2.912      0.232     12.547      0.000
+    F2F2_7$1           2.748      0.204     13.477      0.000
+    F2F2_8$1           3.426      0.293     11.712      0.000
+    F2F2_9$1           4.488      0.486      9.229      0.000
+    NISSUE_6$1        15.000      0.000    999.000    999.000
+    NISSUE_7$1        15.000      0.000    999.000    999.000
+    NISSUE_8$1        15.000      0.000    999.000    999.000
+    NISSUE_9$1         4.044      0.459      8.812      0.000
+    REFUSE_5$1         4.718      0.633      7.447      0.000
+    REFUSE_6$1         5.710      1.506      3.791      0.000
+    REFUSE_7$1         5.012      0.912      5.498      0.000
+    REFUSE_8$1         5.861      1.839      3.188      0.001
+    REFUSE_9$1         4.081      0.393     10.385      0.000
+    OTHERNR_$1         3.162      0.247     12.814      0.000
+    OTHERNR_$1         3.931      0.354     11.093      0.000
+    OTHERNR_$1         3.642      0.335     10.856      0.000
+    OTHERNR_$1         5.057      1.193      4.239      0.000
+    OTHERNR_$1         3.903      0.382     10.217      0.000
 
 Categorical Latent Variables
 
  Means
-    C#1               -0.483      0.352     -1.374      0.169
-    C#2                0.978      0.297      3.297      0.001
-    C#3                0.480      0.320      1.498      0.134
-    C#4               -1.745      0.768     -2.273      0.023
-    C#5                2.222      0.286      7.779      0.000
+    C#1               -1.393      0.096    -14.449      0.000
+    C#2               -0.912      0.094     -9.682      0.000
+    C#3               -0.466      0.095     -4.906      0.000
+    C#4               -1.465      0.117    -12.518      0.000
+    C#5               -1.104      0.107    -10.313      0.000
 
 
 RESULTS IN PROBABILITY SCALE
 
 Latent Class 1
 
- F2F_NOMI
-    Category 1         0.092      0.053      1.743      0.081
-    Category 2         0.908      0.053     17.113      0.000
- F2F_NOMI
-    Category 1         0.036      0.098      0.364      0.716
-    Category 2         0.964      0.098      9.865      0.000
- F2F_NOMI
+ F2F2_5
+    Category 1         0.727      0.037     19.528      0.000
+    Category 2         0.273      0.037      7.323      0.000
+ F2F2_6
+    Category 1         0.965      0.015     62.823      0.000
+    Category 2         0.035      0.015      2.276      0.023
+ F2F2_7
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- F2F_NOMI
+ F2F2_8
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- F2F_NOMI
+ F2F2_9
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- NON_RESP
-    Category 1         0.255      0.102      2.497      0.013
-    Category 2         0.745      0.102      7.310      0.000
- NON_RESP
-    Category 1         0.158      0.118      1.345      0.179
-    Category 2         0.842      0.118      7.151      0.000
- NON_RESP
-    Category 1         0.026      0.032      0.816      0.414
-    Category 2         0.974      0.032     30.409      0.000
- NON_RESP
-    Category 1         0.011      0.057      0.190      0.849
-    Category 2         0.989      0.057     17.224      0.000
- NON_RESP
+ NISSUE_6
+    Category 1         0.832      0.031     26.628      0.000
+    Category 2         0.168      0.031      5.370      0.000
+ NISSUE_7
     Category 1         0.000      0.000      0.000      1.000
     Category 2         1.000      0.000      0.000      1.000
+ NISSUE_8
+    Category 1         0.000      0.000      0.000      1.000
+    Category 2         1.000      0.000      0.000      1.000
+ NISSUE_9
+    Category 1         0.000      0.000      0.000      1.000
+    Category 2         1.000      0.000      0.000      1.000
+ REFUSE_5
+    Category 1         0.839      0.031     27.314      0.000
+    Category 2         0.161      0.031      5.235      0.000
+ REFUSE_6
+    Category 1         0.671      0.039     17.090      0.000
+    Category 2         0.329      0.039      8.367      0.000
+ REFUSE_7
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ REFUSE_8
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ REFUSE_9
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ OTHERNR_
+    Category 1         0.769      0.035     21.833      0.000
+    Category 2         0.231      0.035      6.550      0.000
+ OTHERNR_
+    Category 1         0.601      0.041     14.688      0.000
+    Category 2         0.399      0.041      9.735      0.000
+ OTHERNR_
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ OTHERNR_
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ OTHERNR_
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
 
 Latent Class 2
 
- F2F_NOMI
-    Category 1         0.135      0.033      4.061      0.000
-    Category 2         0.865      0.033     26.123      0.000
- F2F_NOMI
-    Category 1         0.241      0.046      5.293      0.000
-    Category 2         0.759      0.046     16.682      0.000
- F2F_NOMI
-    Category 1         0.227      0.070      3.238      0.001
-    Category 2         0.773      0.070     11.052      0.000
- F2F_NOMI
-    Category 1         0.037      0.026      1.433      0.152
-    Category 2         0.963      0.026     37.261      0.000
- F2F_NOMI
-    Category 1         0.235      0.051      4.598      0.000
-    Category 2         0.765      0.051     14.986      0.000
- NON_RESP
-    Category 1         0.938      0.027     35.123      0.000
-    Category 2         0.062      0.027      2.339      0.019
- NON_RESP
-    Category 1         0.968      0.045     21.715      0.000
-    Category 2         0.032      0.045      0.713      0.476
- NON_RESP
-    Category 1         0.928      0.052     17.755      0.000
-    Category 2         0.072      0.052      1.370      0.171
- NON_RESP
+ F2F2_5
+    Category 1         0.197      0.032      6.176      0.000
+    Category 2         0.803      0.032     25.250      0.000
+ F2F2_6
+    Category 1         0.292      0.034      8.475      0.000
+    Category 2         0.708      0.034     20.538      0.000
+ F2F2_7
+    Category 1         0.310      0.037      8.392      0.000
+    Category 2         0.690      0.037     18.683      0.000
+ F2F2_8
+    Category 1         0.047      0.025      1.839      0.066
+    Category 2         0.953      0.025     37.481      0.000
+ F2F2_9
+    Category 1         0.343      0.047      7.307      0.000
+    Category 2         0.657      0.047     14.000      0.000
+ NISSUE_6
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- NON_RESP
-    Category 1         0.956      0.024     40.220      0.000
-    Category 2         0.044      0.024      1.845      0.065
+ NISSUE_7
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ NISSUE_8
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ NISSUE_9
+    Category 1         0.965      0.024     40.450      0.000
+    Category 2         0.035      0.024      1.449      0.147
+ REFUSE_5
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ REFUSE_6
+    Category 1         0.982      0.011     88.262      0.000
+    Category 2         0.018      0.011      1.575      0.115
+ REFUSE_7
+    Category 1         0.961      0.015     64.018      0.000
+    Category 2         0.039      0.015      2.631      0.009
+ REFUSE_8
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ REFUSE_9
+    Category 1         0.989      0.007    135.527      0.000
+    Category 2         0.011      0.007      1.469      0.142
+ OTHERNR_
+    Category 1         0.926      0.021     43.699      0.000
+    Category 2         0.074      0.021      3.468      0.001
+ OTHERNR_
+    Category 1         0.928      0.019     49.986      0.000
+    Category 2         0.072      0.019      3.906      0.000
+ OTHERNR_
+    Category 1         0.877      0.025     34.775      0.000
+    Category 2         0.123      0.025      4.888      0.000
+ OTHERNR_
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ OTHERNR_
+    Category 1         0.891      0.022     39.882      0.000
+    Category 2         0.109      0.022      4.861      0.000
 
 Latent Class 3
 
- F2F_NOMI
-    Category 1         0.130      0.051      2.526      0.012
-    Category 2         0.870      0.051     16.918      0.000
- F2F_NOMI
-    Category 1         0.000      0.000      0.000      1.000
-    Category 2         1.000      0.000      0.000      1.000
- F2F_NOMI
-    Category 1         0.715      0.064     11.104      0.000
-    Category 2         0.285      0.064      4.419      0.000
- F2F_NOMI
-    Category 1         0.783      0.129      6.071      0.000
-    Category 2         0.217      0.129      1.683      0.092
- F2F_NOMI
-    Category 1         0.887      0.098      9.076      0.000
-    Category 2         0.113      0.098      1.160      0.246
- NON_RESP
-    Category 1         0.700      0.061     11.517      0.000
-    Category 2         0.300      0.061      4.935      0.000
- NON_RESP
-    Category 1         0.541      0.076      7.160      0.000
-    Category 2         0.459      0.076      6.065      0.000
- NON_RESP
-    Category 1         0.825      0.092      8.998      0.000
-    Category 2         0.175      0.092      1.912      0.056
- NON_RESP
-    Category 1         0.770      0.061     12.593      0.000
-    Category 2         0.230      0.061      3.772      0.000
- NON_RESP
-    Category 1         0.894      0.046     19.234      0.000
-    Category 2         0.106      0.046      2.291      0.022
+ F2F2_5
+    Category 1         0.841      0.028     30.012      0.000
+    Category 2         0.159      0.028      5.691      0.000
+ F2F2_6
+    Category 1         0.860      0.022     39.932      0.000
+    Category 2         0.140      0.022      6.478      0.000
+ F2F2_7
+    Category 1         0.917      0.017     53.627      0.000
+    Category 2         0.083      0.017      4.840      0.000
+ F2F2_8
+    Category 1         0.919      0.019     47.942      0.000
+    Category 2         0.081      0.019      4.211      0.000
+ F2F2_9
+    Category 1         0.937      0.014     67.607      0.000
+    Category 2         0.063      0.014      4.581      0.000
+ NISSUE_6
+    Category 1         0.994      0.004    253.569      0.000
+    Category 2         0.006      0.004      1.410      0.159
+ NISSUE_7
+    Category 1         0.992      0.005    207.681      0.000
+    Category 2         0.008      0.005      1.737      0.082
+ NISSUE_8
+    Category 1         0.994      0.004    233.049      0.000
+    Category 2         0.006      0.004      1.418      0.156
+ NISSUE_9
+    Category 1         0.681      0.029     23.853      0.000
+    Category 2         0.319      0.029     11.176      0.000
+ REFUSE_5
+    Category 1         0.815      0.023     36.159      0.000
+    Category 2         0.185      0.023      8.211      0.000
+ REFUSE_6
+    Category 1         0.751      0.026     29.344      0.000
+    Category 2         0.249      0.026      9.734      0.000
+ REFUSE_7
+    Category 1         0.680      0.030     22.735      0.000
+    Category 2         0.320      0.030     10.699      0.000
+ REFUSE_8
+    Category 1         0.690      0.029     23.762      0.000
+    Category 2         0.310      0.029     10.670      0.000
+ REFUSE_9
+    Category 1         0.878      0.018     48.231      0.000
+    Category 2         0.122      0.018      6.672      0.000
+ OTHERNR_
+    Category 1         0.666      0.031     21.402      0.000
+    Category 2         0.334      0.031     10.717      0.000
+ OTHERNR_
+    Category 1         0.795      0.023     34.503      0.000
+    Category 2         0.205      0.023      8.903      0.000
+ OTHERNR_
+    Category 1         0.691      0.028     24.956      0.000
+    Category 2         0.309      0.028     11.151      0.000
+ OTHERNR_
+    Category 1         0.652      0.029     22.498      0.000
+    Category 2         0.348      0.029     12.027      0.000
+ OTHERNR_
+    Category 1         0.740      0.025     29.254      0.000
+    Category 2         0.260      0.025     10.257      0.000
 
 Latent Class 4
 
- F2F_NOMI
-    Category 1         0.989      0.479      2.063      0.039
-    Category 2         0.011      0.479      0.023      0.982
- F2F_NOMI
+ F2F2_5
+    Category 1         0.712      0.062     11.467      0.000
+    Category 2         0.288      0.062      4.639      0.000
+ F2F2_6
+    Category 1         0.901      0.061     14.756      0.000
+    Category 2         0.099      0.061      1.626      0.104
+ F2F2_7
+    Category 1         0.984      0.012     82.538      0.000
+    Category 2         0.016      0.012      1.310      0.190
+ F2F2_8
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- F2F_NOMI
+ F2F2_9
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- F2F_NOMI
+ NISSUE_6
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- F2F_NOMI
+ NISSUE_7
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- NON_RESP
-    Category 1         1.000      0.000      0.000      1.000
-    Category 2         0.000      0.000      0.000      1.000
- NON_RESP
-    Category 1         1.000      0.000      0.000      1.000
-    Category 2         0.000      0.000      0.000      1.000
- NON_RESP
-    Category 1         0.441      0.231      1.911      0.056
-    Category 2         0.559      0.231      2.421      0.015
- NON_RESP
+ NISSUE_8
     Category 1         0.000      0.000      0.000      1.000
     Category 2         1.000      0.000      0.000      1.000
- NON_RESP
-    Category 1         0.341      0.413      0.826      0.409
-    Category 2         0.659      0.413      1.598      0.110
+ NISSUE_9
+    Category 1         0.000      0.000      0.000      1.000
+    Category 2         1.000      0.000      0.000      1.000
+ REFUSE_5
+    Category 1         0.903      0.027     34.015      0.000
+    Category 2         0.097      0.027      3.674      0.000
+ REFUSE_6
+    Category 1         0.662      0.047     14.057      0.000
+    Category 2         0.338      0.047      7.172      0.000
+ REFUSE_7
+    Category 1         0.611      0.046     13.305      0.000
+    Category 2         0.389      0.046      8.478      0.000
+ REFUSE_8
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ REFUSE_9
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ OTHERNR_
+    Category 1         0.753      0.044     17.219      0.000
+    Category 2         0.247      0.044      5.663      0.000
+ OTHERNR_
+    Category 1         0.737      0.044     16.722      0.000
+    Category 2         0.263      0.044      5.961      0.000
+ OTHERNR_
+    Category 1         0.450      0.047      9.571      0.000
+    Category 2         0.550      0.047     11.720      0.000
+ OTHERNR_
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ OTHERNR_
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
 
 Latent Class 5
 
- F2F_NOMI
-    Category 1         0.836      0.024     35.199      0.000
-    Category 2         0.164      0.024      6.907      0.000
- F2F_NOMI
-    Category 1         0.946      0.013     70.274      0.000
-    Category 2         0.054      0.013      4.005      0.000
- F2F_NOMI
-    Category 1         0.945      0.011     83.546      0.000
-    Category 2         0.055      0.011      4.856      0.000
- F2F_NOMI
-    Category 1         0.966      0.009    106.959      0.000
-    Category 2         0.034      0.009      3.765      0.000
- F2F_NOMI
-    Category 1         0.992      0.005    209.289      0.000
-    Category 2         0.008      0.005      1.789      0.074
- NON_RESP
+ F2F2_5
+    Category 1         0.028      0.020      1.378      0.168
+    Category 2         0.972      0.020     48.687      0.000
+ F2F2_6
+    Category 1         0.142      0.042      3.350      0.001
+    Category 2         0.858      0.042     20.269      0.000
+ F2F2_7
+    Category 1         0.646      0.047     13.617      0.000
+    Category 2         0.354      0.047      7.477      0.000
+ F2F2_8
+    Category 1         0.947      0.033     28.489      0.000
+    Category 2         0.053      0.033      1.595      0.111
+ F2F2_9
+    Category 1         0.939      0.020     45.919      0.000
+    Category 2         0.061      0.020      2.976      0.003
+ NISSUE_6
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- NON_RESP
+ NISSUE_7
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- NON_RESP
-    Category 1         0.970      0.008    116.777      0.000
-    Category 2         0.030      0.008      3.640      0.000
- NON_RESP
+ NISSUE_8
+    Category 1         0.760      0.058     13.007      0.000
+    Category 2         0.240      0.058      4.100      0.000
+ NISSUE_9
+    Category 1         0.331      0.059      5.586      0.000
+    Category 2         0.669      0.059     11.269      0.000
+ REFUSE_5
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- NON_RESP
-    Category 1         0.989      0.005    191.691      0.000
-    Category 2         0.011      0.005      2.215      0.027
+ REFUSE_6
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ REFUSE_7
+    Category 1         0.767      0.043     17.915      0.000
+    Category 2         0.233      0.043      5.452      0.000
+ REFUSE_8
+    Category 1         0.799      0.034     23.433      0.000
+    Category 2         0.201      0.034      5.881      0.000
+ REFUSE_9
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ OTHERNR_
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ OTHERNR_
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ OTHERNR_
+    Category 1         0.744      0.042     17.879      0.000
+    Category 2         0.256      0.042      6.147      0.000
+ OTHERNR_
+    Category 1         0.668      0.044     15.055      0.000
+    Category 2         0.332      0.044      7.483      0.000
+ OTHERNR_
+    Category 1         0.939      0.026     36.190      0.000
+    Category 2         0.061      0.026      2.338      0.019
 
 Latent Class 6
 
- F2F_NOMI
-    Category 1         0.000      0.000      0.000      1.000
-    Category 2         1.000      0.000      0.000      1.000
- F2F_NOMI
+ F2F2_5
+    Category 1         0.826      0.018     46.064      0.000
+    Category 2         0.174      0.018      9.734      0.000
+ F2F2_6
+    Category 1         0.948      0.011     83.539      0.000
+    Category 2         0.052      0.011      4.544      0.000
+ F2F2_7
+    Category 1         0.940      0.012     81.484      0.000
+    Category 2         0.060      0.012      5.218      0.000
+ F2F2_8
+    Category 1         0.969      0.009    108.588      0.000
+    Category 2         0.031      0.009      3.529      0.000
+ F2F2_9
+    Category 1         0.989      0.005    184.911      0.000
+    Category 2         0.011      0.005      2.080      0.038
+ NISSUE_6
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- F2F_NOMI
-    Category 1         0.891      0.055     16.130      0.000
-    Category 2         0.109      0.055      1.971      0.049
- F2F_NOMI
-    Category 1         0.920      0.046     19.952      0.000
-    Category 2         0.080      0.046      1.746      0.081
- F2F_NOMI
-    Category 1         0.951      0.033     28.570      0.000
-    Category 2         0.049      0.033      1.457      0.145
- NON_RESP
-    Category 1         0.266      0.173      1.542      0.123
-    Category 2         0.734      0.173      4.253      0.000
- NON_RESP
+ NISSUE_7
     Category 1         1.000      0.000      0.000      1.000
     Category 2         0.000      0.000      0.000      1.000
- NON_RESP
-    Category 1         0.856      0.125      6.844      0.000
-    Category 2         0.144      0.125      1.150      0.250
- NON_RESP
-    Category 1         0.851      0.124      6.886      0.000
-    Category 2         0.149      0.124      1.207      0.227
- NON_RESP
-    Category 1         0.858      0.085     10.034      0.000
-    Category 2         0.142      0.085      1.662      0.096
+ NISSUE_8
+    Category 1         1.000      0.000      0.000      1.000
+    Category 2         0.000      0.000      0.000      1.000
+ NISSUE_9
+    Category 1         0.983      0.008    126.515      0.000
+    Category 2         0.017      0.008      2.217      0.027
+ REFUSE_5
+    Category 1         0.991      0.006    178.226      0.000
+    Category 2         0.009      0.006      1.593      0.111
+ REFUSE_6
+    Category 1         0.997      0.005    201.078      0.000
+    Category 2         0.003      0.005      0.666      0.505
+ REFUSE_7
+    Category 1         0.993      0.006    165.819      0.000
+    Category 2         0.007      0.006      1.104      0.269
+ REFUSE_8
+    Category 1         0.997      0.005    191.488      0.000
+    Category 2         0.003      0.005      0.545      0.585
+ REFUSE_9
+    Category 1         0.983      0.006    153.157      0.000
+    Category 2         0.017      0.006      2.588      0.010
+ OTHERNR_
+    Category 1         0.959      0.010     99.775      0.000
+    Category 2         0.041      0.010      4.224      0.000
+ OTHERNR_
+    Category 1         0.981      0.007    146.645      0.000
+    Category 2         0.019      0.007      2.877      0.004
+ OTHERNR_
+    Category 1         0.974      0.008    116.731      0.000
+    Category 2         0.026      0.008      3.059      0.002
+ OTHERNR_
+    Category 1         0.994      0.007    132.554      0.000
+    Category 2         0.006      0.007      0.844      0.399
+ OTHERNR_
+    Category 1         0.980      0.007    132.359      0.000
+    Category 2         0.020      0.007      2.670      0.008
 
 
 LATENT CLASS ODDS RATIO RESULTS
 
-                                         (Est. - 1) Two-Tailed
-                    Estimate       S.E.     / S.E.    P-Value
-
 Latent Class 1 Compared to Latent Class 2
 
- F2F_NOMI
-    Category > 1       1.526      1.056      0.498      0.618
- F2F_NOMI
-    Category > 1       8.591     24.585      0.309      0.757
- F2F_NOMI
+ F2F2_5
+    Category > 1       0.092      0.025      3.630      0.000
+ F2F2_6
+    Category > 1       0.015      0.007      2.063      0.039
+ F2F2_7
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
+ F2F2_8
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
+ F2F2_9
     Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1      43.964     32.236      1.333      0.183
- NON_RESP
-    Category > 1     161.901    276.741      0.581      0.561
- NON_RESP
-    Category > 1     483.030    707.842      0.681      0.496
- NON_RESP
+ NISSUE_6
     Category > 1   *********      0.000    999.000    999.000
- NON_RESP
+ NISSUE_7
     Category > 1   *********      0.000    999.000    999.000
+ NISSUE_8
+    Category > 1   *********      0.000    999.000    999.000
+ NISSUE_9
+    Category > 1   *********      0.000    999.000    999.000
+ REFUSE_5
+    Category > 1   *********      0.000    999.000    999.000
+ REFUSE_6
+    Category > 1      27.432     18.386      1.492      0.136
+ REFUSE_7
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_8
+    Category > 1       1.000      0.000    999.000    999.000
+ REFUSE_9
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       3.781      1.396      2.709      0.007
+ OTHERNR_
+    Category > 1       8.482      2.753      3.081      0.002
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       1.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
 
 Latent Class 1 Compared to Latent Class 3
 
- F2F_NOMI
-    Category > 1       1.466      1.152      0.405      0.686
- F2F_NOMI
+ F2F2_5
+    Category > 1       1.977      0.556      3.559      0.000
+ F2F2_6
+    Category > 1       0.223      0.109      2.044      0.041
+ F2F2_7
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
+ F2F2_8
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
+ F2F2_9
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1       6.834      4.312      1.353      0.176
- NON_RESP
-    Category > 1       6.277      5.873      0.898      0.369
- NON_RESP
-    Category > 1     175.390    248.356      0.702      0.483
- NON_RESP
-    Category > 1     301.937   1633.240      0.184      0.854
- NON_RESP
+ NISSUE_6
+    Category > 1      36.267     27.106      1.338      0.181
+ NISSUE_7
     Category > 1   *********      0.000    999.000    999.000
+ NISSUE_8
+    Category > 1   *********      0.000    999.000    999.000
+ NISSUE_9
+    Category > 1   *********      0.000    999.000    999.000
+ REFUSE_5
+    Category > 1       0.844      0.230      3.672      0.000
+ REFUSE_6
+    Category > 1       1.476      0.331      4.454      0.000
+ REFUSE_7
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_8
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_9
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.599      0.146      4.117      0.000
+ OTHERNR_
+    Category > 1       2.569      0.569      4.511      0.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
 
 Latent Class 1 Compared to Latent Class 4
 
- F2F_NOMI
-    Category > 1     889.703  39434.398      0.023      0.982
- F2F_NOMI
-    Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       1.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       1.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       1.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1      29.422     45.167      0.629      0.529
- NON_RESP
+ F2F2_5
+    Category > 1       0.927      0.330      2.807      0.005
+ F2F2_6
+    Category > 1       0.329      0.270      1.219      0.223
+ F2F2_7
     Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
+ F2F2_8
+    Category > 1       1.000      0.000    999.000    999.000
+ F2F2_9
+    Category > 1       1.000      0.000    999.000    999.000
+ NISSUE_6
     Category > 1   *********      0.000    999.000    999.000
+ NISSUE_7
+    Category > 1   *********      0.000    999.000    999.000
+ NISSUE_8
+    Category > 1       1.000      0.000    999.000    999.000
+ NISSUE_9
+    Category > 1       1.000      0.000    999.000    999.000
+ REFUSE_5
+    Category > 1       1.774      0.670      2.647      0.008
+ REFUSE_6
+    Category > 1       0.960      0.265      3.627      0.000
+ REFUSE_7
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_8
+    Category > 1       1.000      0.000    999.000    999.000
+ REFUSE_9
+    Category > 1       1.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.912      0.280      3.254      0.001
+ OTHERNR_
+    Category > 1       1.859      0.529      3.515      0.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       1.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       1.000      0.000    999.000    999.000
 
 Latent Class 1 Compared to Latent Class 5
 
- F2F_NOMI
-    Category > 1      50.034     33.194      1.477      0.140
- F2F_NOMI
-    Category > 1     475.127   1358.358      0.349      0.727
- F2F_NOMI
+ F2F2_5
+    Category > 1       0.011      0.008      1.299      0.194
+ F2F2_6
+    Category > 1       0.006      0.003      1.745      0.081
+ F2F2_7
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
+ F2F2_8
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
+ F2F2_9
     Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
+ NISSUE_6
     Category > 1   *********      0.000    999.000    999.000
- NON_RESP
+ NISSUE_7
     Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1    1195.652   1536.886      0.777      0.437
- NON_RESP
+ NISSUE_8
     Category > 1   *********      0.000    999.000    999.000
- NON_RESP
+ NISSUE_9
     Category > 1   *********      0.000    999.000    999.000
+ REFUSE_5
+    Category > 1   *********      0.000    999.000    999.000
+ REFUSE_6
+    Category > 1   *********      0.000    999.000    999.000
+ REFUSE_7
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_8
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_9
+    Category > 1       1.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1   *********      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1   *********      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
 
 Latent Class 1 Compared to Latent Class 6
 
- F2F_NOMI
+ F2F2_5
+    Category > 1       1.775      0.400      4.439      0.000
+ F2F2_6
+    Category > 1       0.666      0.340      1.957      0.050
+ F2F2_7
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
+ F2F2_8
+    Category > 1       0.000      0.000    999.000    999.000
+ F2F2_9
+    Category > 1       0.000      0.000    999.000    999.000
+ NISSUE_6
     Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1       1.062      1.098      0.056      0.955
- NON_RESP
+ NISSUE_7
     Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1     221.799    374.846      0.589      0.556
- NON_RESP
-    Category > 1     515.830   2848.894      0.181      0.857
- NON_RESP
+ NISSUE_8
     Category > 1   *********      0.000    999.000    999.000
+ NISSUE_9
+    Category > 1   *********      0.000    999.000    999.000
+ REFUSE_5
+    Category > 1      21.447     14.436      1.486      0.137
+ REFUSE_6
+    Category > 1     147.774    224.106      0.659      0.510
+ REFUSE_7
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_8
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_9
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       7.087      2.244      3.158      0.002
+ OTHERNR_
+    Category > 1      33.780     13.289      2.542      0.011
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
 
 Latent Class 2 Compared to Latent Class 3
 
- F2F_NOMI
-    Category > 1       0.961      0.559     -0.070      0.944
- F2F_NOMI
+ F2F2_5
+    Category > 1      21.560      6.274      3.437      0.001
+ F2F2_6
+    Category > 1      14.938      3.632      4.113      0.000
+ F2F2_7
+    Category > 1      24.664      6.906      3.571      0.000
+ F2F2_8
+    Category > 1     232.019    145.144      1.599      0.110
+ F2F2_9
+    Category > 1      28.277      8.911      3.173      0.002
+ NISSUE_6
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       8.578      5.163      1.468      0.142
- F2F_NOMI
-    Category > 1      93.798    106.222      0.874      0.382
- F2F_NOMI
-    Category > 1      25.494     26.215      0.934      0.350
- NON_RESP
-    Category > 1       0.155      0.084    -10.009      0.000
- NON_RESP
-    Category > 1       0.039      0.061    -15.807      0.000
- NON_RESP
-    Category > 1       0.363      0.486     -1.309      0.190
- NON_RESP
+ NISSUE_7
     Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1       0.385      0.328     -1.874      0.061
+ NISSUE_8
+    Category > 1       0.000      0.000    999.000    999.000
+ NISSUE_9
+    Category > 1       0.076      0.056      1.376      0.169
+ REFUSE_5
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_6
+    Category > 1       0.054      0.036      1.514      0.130
+ REFUSE_7
+    Category > 1       0.087      0.036      2.398      0.017
+ REFUSE_8
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_9
+    Category > 1       0.078      0.056      1.409      0.159
+ OTHERNR_
+    Category > 1       0.158      0.056      2.847      0.004
+ OTHERNR_
+    Category > 1       0.303      0.095      3.188      0.001
+ OTHERNR_
+    Category > 1       0.315      0.087      3.625      0.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.348      0.092      3.762      0.000
 
 Latent Class 2 Compared to Latent Class 4
 
- F2F_NOMI
-    Category > 1     582.947  25886.350      0.022      0.982
- F2F_NOMI
+ F2F2_5
+    Category > 1      10.107      3.740      2.702      0.007
+ F2F2_6
+    Category > 1      21.992     15.601      1.410      0.159
+ F2F2_7
+    Category > 1     140.222    111.258      1.260      0.208
+ F2F2_8
     Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
+ F2F2_9
     Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1       0.061      0.075    -12.538      0.000
- NON_RESP
+ NISSUE_6
+    Category > 1       1.000      0.000    999.000    999.000
+ NISSUE_7
+    Category > 1       1.000      0.000    999.000    999.000
+ NISSUE_8
     Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1       0.024      0.046    -21.294      0.000
+ NISSUE_9
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_5
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_6
+    Category > 1       0.035      0.024      1.469      0.142
+ REFUSE_7
+    Category > 1       0.064      0.028      2.278      0.023
+ REFUSE_8
+    Category > 1       1.000      0.000    999.000    999.000
+ REFUSE_9
+    Category > 1   35430.809      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.241      0.095      2.542      0.011
+ OTHERNR_
+    Category > 1       0.219      0.079      2.767      0.006
+ OTHERNR_
+    Category > 1       0.115      0.035      3.320      0.001
+ OTHERNR_
+    Category > 1       1.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1   *********      0.000    999.000    999.000
 
 Latent Class 2 Compared to Latent Class 5
 
- F2F_NOMI
-    Category > 1      32.783     11.001      2.889      0.004
- F2F_NOMI
-    Category > 1      55.305     20.990      2.587      0.010
- F2F_NOMI
-    Category > 1      58.732     26.280      2.197      0.028
- F2F_NOMI
-    Category > 1     738.494    565.616      1.304      0.192
- F2F_NOMI
-    Category > 1     381.412    240.796      1.580      0.114
- NON_RESP
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1       2.475      2.061      0.716      0.474
- NON_RESP
+ F2F2_5
+    Category > 1       0.116      0.089      1.299      0.194
+ F2F2_6
+    Category > 1       0.401      0.154      2.599      0.009
+ F2F2_7
+    Category > 1       4.054      1.102      3.680      0.000
+ F2F2_8
+    Category > 1     363.970    298.181      1.221      0.222
+ F2F2_9
+    Category > 1      29.566     12.246      2.414      0.016
+ NISSUE_6
     Category > 1       1.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1       3.969      3.001      0.989      0.323
+ NISSUE_7
+    Category > 1       1.000      0.000    999.000    999.000
+ NISSUE_8
+    Category > 1       0.000      0.000    999.000    999.000
+ NISSUE_9
+    Category > 1       0.018      0.013      1.320      0.187
+ REFUSE_5
+    Category > 1       1.000      0.000    999.000    999.000
+ REFUSE_6
+    Category > 1   58342.871      0.000    999.000    999.000
+ REFUSE_7
+    Category > 1       0.135      0.064      2.117      0.034
+ REFUSE_8
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_9
+    Category > 1   35430.809      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1   *********      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1   *********      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.409      0.134      3.057      0.002
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       1.886      1.020      1.850      0.064
 
 Latent Class 2 Compared to Latent Class 6
 
- F2F_NOMI
+ F2F2_5
+    Category > 1      19.349      4.592      4.214      0.000
+ F2F2_6
+    Category > 1      44.553     12.712      3.505      0.000
+ F2F2_7
+    Category > 1      34.765      9.353      3.717      0.000
+ F2F2_8
+    Category > 1     626.986    399.971      1.568      0.117
+ F2F2_9
+    Category > 1     170.358     89.672      1.900      0.057
+ NISSUE_6
+    Category > 1       1.000      0.000    999.000    999.000
+ NISSUE_7
+    Category > 1       1.000      0.000    999.000    999.000
+ NISSUE_8
+    Category > 1       1.000      0.000    999.000    999.000
+ NISSUE_9
+    Category > 1       2.045      1.736      1.178      0.239
+ REFUSE_5
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1      27.942     19.633      1.372      0.170
- F2F_NOMI
-    Category > 1     297.093    289.423      1.023      0.306
- F2F_NOMI
-    Category > 1      63.922     49.203      1.279      0.201
- NON_RESP
-    Category > 1       0.024      0.025    -39.614      0.000
- NON_RESP
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1       0.459      0.592     -0.914      0.361
- NON_RESP
+ REFUSE_6
+    Category > 1       5.387      8.868      0.607      0.544
+ REFUSE_7
+    Category > 1       6.171      6.122      1.008      0.313
+ REFUSE_8
     Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1       0.277      0.253     -2.859      0.004
+ REFUSE_9
+    Category > 1       0.641      0.520      1.233      0.218
+ OTHERNR_
+    Category > 1       1.875      0.744      2.518      0.012
+ OTHERNR_
+    Category > 1       3.982      1.812      2.197      0.028
+ OTHERNR_
+    Category > 1       5.364      2.180      2.460      0.014
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       6.041      2.718      2.222      0.026
 
 Latent Class 3 Compared to Latent Class 4
 
- F2F_NOMI
-    Category > 1     606.833  26941.072      0.022      0.982
- F2F_NOMI
+ F2F2_5
+    Category > 1       0.469      0.178      2.630      0.009
+ F2F2_6
+    Category > 1       1.472      1.050      1.402      0.161
+ F2F2_7
+    Category > 1       5.685      4.596      1.237      0.216
+ F2F2_8
     Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
+ F2F2_9
     Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1       0.168      0.188     -4.438      0.000
- NON_RESP
+ NISSUE_6
+    Category > 1   18179.176      0.000    999.000    999.000
+ NISSUE_7
+    Category > 1   27348.535      0.000    999.000    999.000
+ NISSUE_8
     Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1       0.062      0.118     -7.937      0.000
+ NISSUE_9
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_5
+    Category > 1       2.102      0.711      2.958      0.003
+ REFUSE_6
+    Category > 1       0.650      0.165      3.941      0.000
+ REFUSE_7
+    Category > 1       0.739      0.173      4.267      0.000
+ REFUSE_8
+    Category > 1   *********      0.000    999.000    999.000
+ REFUSE_9
+    Category > 1   *********      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       1.523      0.420      3.623      0.000
+ OTHERNR_
+    Category > 1       0.724      0.195      3.707      0.000
+ OTHERNR_
+    Category > 1       0.365      0.083      4.377      0.000
+ OTHERNR_
+    Category > 1   *********      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1   *********      0.000    999.000    999.000
 
 Latent Class 3 Compared to Latent Class 5
 
- F2F_NOMI
-    Category > 1      34.127     16.372      2.023      0.043
- F2F_NOMI
+ F2F2_5
+    Category > 1       0.005      0.004      1.296      0.195
+ F2F2_6
+    Category > 1       0.027      0.011      2.493      0.013
+ F2F2_7
+    Category > 1       0.164      0.052      3.154      0.002
+ F2F2_8
+    Category > 1       1.569      1.073      1.462      0.144
+ F2F2_9
+    Category > 1       1.046      0.460      2.271      0.023
+ NISSUE_6
+    Category > 1   18179.176      0.000    999.000    999.000
+ NISSUE_7
+    Category > 1   27348.535      0.000    999.000    999.000
+ NISSUE_8
+    Category > 1       0.019      0.015      1.283      0.199
+ NISSUE_9
+    Category > 1       0.232      0.073      3.195      0.001
+ REFUSE_5
     Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       6.847      2.705      2.161      0.031
- F2F_NOMI
-    Category > 1       7.873      6.363      1.080      0.280
- F2F_NOMI
-    Category > 1      14.961     16.785      0.832      0.406
- NON_RESP
+ REFUSE_6
     Category > 1   *********      0.000    999.000    999.000
- NON_RESP
+ REFUSE_7
+    Category > 1       1.546      0.456      3.390      0.001
+ REFUSE_8
+    Category > 1       1.789      0.475      3.769      0.000
+ REFUSE_9
     Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1       6.817      4.792      1.214      0.225
- NON_RESP
+ OTHERNR_
     Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1      10.307      6.890      1.351      0.177
+ OTHERNR_
+    Category > 1   *********      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       1.299      0.346      3.754      0.000
+ OTHERNR_
+    Category > 1       1.076      0.270      3.987      0.000
+ OTHERNR_
+    Category > 1       5.426      2.645      2.052      0.040
 
 Latent Class 3 Compared to Latent Class 6
 
- F2F_NOMI
-    Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       3.258      2.095      1.078      0.281
- F2F_NOMI
-    Category > 1       3.167      3.005      0.721      0.471
- F2F_NOMI
-    Category > 1       2.507      3.064      0.492      0.623
- NON_RESP
-    Category > 1       0.155      0.141     -5.986      0.000
- NON_RESP
-    Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1       1.265      1.522      0.174      0.862
- NON_RESP
-    Category > 1       1.708      1.756      0.403      0.687
- NON_RESP
-    Category > 1       0.719      0.621     -0.452      0.651
+ F2F2_5
+    Category > 1       0.897      0.227      3.952      0.000
+ F2F2_6
+    Category > 1       2.982      0.914      3.261      0.001
+ F2F2_7
+    Category > 1       1.410      0.459      3.069      0.002
+ F2F2_8
+    Category > 1       2.702      1.095      2.468      0.014
+ F2F2_9
+    Category > 1       6.025      3.416      1.763      0.078
+ NISSUE_6
+    Category > 1   18179.176      0.000    999.000    999.000
+ NISSUE_7
+    Category > 1   27348.535      0.000    999.000    999.000
+ NISSUE_8
+    Category > 1   19892.062      0.000    999.000    999.000
+ NISSUE_9
+    Category > 1      26.738     13.055      2.048      0.041
+ REFUSE_5
+    Category > 1      25.410     17.079      1.488      0.137
+ REFUSE_6
+    Category > 1     100.130    152.718      0.656      0.512
+ REFUSE_7
+    Category > 1      70.669     66.399      1.064      0.287
+ REFUSE_8
+    Category > 1     157.649    293.673      0.537      0.591
+ REFUSE_9
+    Category > 1       8.186      3.642      2.248      0.025
+ OTHERNR_
+    Category > 1      11.828      3.516      3.364      0.001
+ OTHERNR_
+    Category > 1      13.151      5.160      2.549      0.011
+ OTHERNR_
+    Category > 1      17.050      6.404      2.663      0.008
+ OTHERNR_
+    Category > 1      83.996    102.623      0.818      0.413
+ OTHERNR_
+    Category > 1      17.379      7.241      2.400      0.016
 
 Latent Class 4 Compared to Latent Class 5
 
- F2F_NOMI
-    Category > 1       0.056      2.494     -0.378      0.705
- F2F_NOMI
+ F2F2_5
+    Category > 1       0.011      0.009      1.221      0.222
+ F2F2_6
+    Category > 1       0.018      0.015      1.216      0.224
+ F2F2_7
+    Category > 1       0.029      0.023      1.259      0.208
+ F2F2_8
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
+ F2F2_9
     Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
+ NISSUE_6
     Category > 1       1.000      0.000    999.000    999.000
- NON_RESP
+ NISSUE_7
     Category > 1       1.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1      40.639     38.850      1.020      0.308
- NON_RESP
+ NISSUE_8
     Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1     167.406    315.847      0.527      0.598
+ NISSUE_9
+    Category > 1   *********      0.000    999.000    999.000
+ REFUSE_5
+    Category > 1   *********      0.000    999.000    999.000
+ REFUSE_6
+    Category > 1   *********      0.000    999.000    999.000
+ REFUSE_7
+    Category > 1       2.094      0.693      3.023      0.003
+ REFUSE_8
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_9
+    Category > 1       1.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1   *********      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1   *********      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       3.562      1.058      3.365      0.001
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
 
 Latent Class 4 Compared to Latent Class 6
 
- F2F_NOMI
-    Category > 1       0.000      0.000  *********      0.000
- F2F_NOMI
+ F2F2_5
+    Category > 1       1.915      0.634      3.019      0.003
+ F2F2_6
+    Category > 1       2.026      1.480      1.369      0.171
+ F2F2_7
+    Category > 1       0.248      0.199      1.249      0.212
+ F2F2_8
+    Category > 1       0.000      0.000    999.000    999.000
+ F2F2_9
+    Category > 1       0.000      0.000    999.000    999.000
+ NISSUE_6
     Category > 1       1.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
+ NISSUE_7
     Category > 1       1.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1       7.539     12.809      0.510      0.610
- NON_RESP
+ NISSUE_8
     Category > 1   *********      0.000    999.000    999.000
- NON_RESP
-    Category > 1      11.679     21.661      0.493      0.622
+ NISSUE_9
+    Category > 1   *********      0.000    999.000    999.000
+ REFUSE_5
+    Category > 1      12.087      8.488      1.424      0.154
+ REFUSE_6
+    Category > 1     154.001    234.778      0.656      0.512
+ REFUSE_7
+    Category > 1      95.685     89.182      1.073      0.283
+ REFUSE_8
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_9
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       7.769      2.653      2.929      0.003
+ OTHERNR_
+    Category > 1      18.170      7.682      2.365      0.018
+ OTHERNR_
+    Category > 1      46.731     18.003      2.596      0.009
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
 
 Latent Class 5 Compared to Latent Class 6
 
- F2F_NOMI
-    Category > 1       0.000      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1   *********      0.000    999.000    999.000
- F2F_NOMI
-    Category > 1       0.476      0.300     -1.746      0.081
- F2F_NOMI
-    Category > 1       0.402      0.278     -2.153      0.031
- F2F_NOMI
-    Category > 1       0.168      0.159     -5.223      0.000
- NON_RESP
-    Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
+ F2F2_5
+    Category > 1     167.226    126.296      1.324      0.185
+ F2F2_6
+    Category > 1     111.239     46.297      2.403      0.016
+ F2F2_7
+    Category > 1       8.575      2.496      3.435      0.001
+ F2F2_8
+    Category > 1       1.723      1.227      1.404      0.160
+ F2F2_9
+    Category > 1       5.762      3.457      1.667      0.096
+ NISSUE_6
     Category > 1       1.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1       0.186      0.201     -4.044      0.000
- NON_RESP
+ NISSUE_7
+    Category > 1       1.000      0.000    999.000    999.000
+ NISSUE_8
+    Category > 1   *********      0.000    999.000    999.000
+ NISSUE_9
+    Category > 1     115.120     61.571      1.870      0.062
+ REFUSE_5
     Category > 1       0.000      0.000    999.000    999.000
- NON_RESP
-    Category > 1       0.070      0.059    -15.636      0.000
+ REFUSE_6
+    Category > 1       0.000      0.000    999.000    999.000
+ REFUSE_7
+    Category > 1      45.700     42.913      1.065      0.287
+ REFUSE_8
+    Category > 1      88.121    162.678      0.542      0.588
+ REFUSE_9
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1       0.000      0.000    999.000    999.000
+ OTHERNR_
+    Category > 1      13.121      5.261      2.494      0.013
+ OTHERNR_
+    Category > 1      78.095     94.487      0.827      0.409
+ OTHERNR_
+    Category > 1       3.203      1.892      1.693      0.090
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.824E-05
+     Condition Number for the Information Matrix              0.104E-02
        (ratio of smallest to largest eigenvalue)
+
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    mode_switch_lca_6.dat
+
+  Order and format of variables
+
+    F2F2_5         F10.3
+    F2F2_6         F10.3
+    F2F2_7         F10.3
+    F2F2_8         F10.3
+    F2F2_9         F10.3
+    NISSUE_6       F10.3
+    NISSUE_7       F10.3
+    NISSUE_8       F10.3
+    NISSUE_9       F10.3
+    REFUSE_5       F10.3
+    REFUSE_6       F10.3
+    REFUSE_7       F10.3
+    REFUSE_8       F10.3
+    REFUSE_9       F10.3
+    OTHERNR_       F10.3
+    OTHERNR_       F10.3
+    OTHERNR_       F10.3
+    OTHERNR_       F10.3
+    OTHERNR_       F10.3
+    ID             F10.3
+    CPROB1         F10.3
+    CPROB2         F10.3
+    CPROB3         F10.3
+    CPROB4         F10.3
+    CPROB5         F10.3
+    CPROB6         F10.3
+    C              F10.3
+
+  Save file format
+    27F10.3
+
+  Save file record length    10000
 
 
 DIAGRAM INFORMATION
@@ -985,9 +1964,9 @@ DIAGRAM INFORMATION
   No diagram output was produced.
 
 
-     Beginning Time:  15:35:03
-        Ending Time:  15:35:03
-       Elapsed Time:  00:00:00
+     Beginning Time:  08:12:00
+        Ending Time:  08:23:41
+       Elapsed Time:  00:11:41
 
 
 
@@ -1000,4 +1979,4 @@ Fax: (310) 391-8971
 Web: www.StatModel.com
 Support: Support@StatModel.com
 
-Copyright (c) 1998-2018 Muthen & Muthen
+Copyright (c) 1998-2017 Muthen & Muthen

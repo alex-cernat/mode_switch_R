@@ -1,37 +1,63 @@
 TITLE: latent class analysis of mode switch;
-DATA: FILE = "ip_data.dat";
-VARIABLE: 
-NAMES = pidp indmode_5 ivfio_5 mm_5 sum_var_5 f2f_5 f2f_nomiss_5 non_resp_5
-     indmode_6 ivfio_6 mm_6 sum_var_6 f2f_6 f2f_nomiss_6 non_resp_6 indmode_7
-     ivfio_7 mm_7 sum_var_7 f2f_7 f2f_nomiss_7 non_resp_7 indmode_8 ivfio_8 mm_8
-     sum_var_8 f2f_8 f2f_nomiss_8 non_resp_8 indmode_9 ivfio_9 mm_9 sum_var_9 f2f_9
-     f2f_nomiss_9 non_resp_9 indmode_10 ivfio_10 mm_10 sum_var_10 f2f_10
-     f2f_nomiss_10 non_resp_10 inwork_4 edu_4 agecat_4 female_4 white_4 partner_4
-     sf1_4 longill_4 london_4 north_4 urban_4 refresh_4 Higher_4 Alevel_4 GCSE_4
-     Other_4 age_35_4 age_55_4 age_75_4 age_102_4 inwork_9 edu_9 agecat_9 female_9
-     white_9 partner_9 sf1_9 longill_9 london_9 north_9 urban_9 refresh_9 Higher_9
-     Alevel_9 GCSE_9 Other_9 age_35_9 age_55_9 age_75_9 age_102_9 f2f f2f_nomiss
-     non_resp id;
-USEVARIABLES ARE
-    f2f_nomiss_5 f2f_nomiss_6 f2f_nomiss_7 f2f_nomiss_8 f2f_nomiss_9
-    non_resp_5 non_resp_6 non_resp_7 non_resp_8 non_resp_9
-    female_4  partner_4 
-      london_4 north_4 urban_4 refresh_4 Higher_4 Alevel_4 GCSE_4
-     age_55_4 age_75_4 age_102_4;
-CATEGORICAL ARE
-    f2f_nomiss_5 f2f_nomiss_6 f2f_nomiss_7 f2f_nomiss_8 f2f_nomiss_9
-    non_resp_5 non_resp_6 non_resp_7 non_resp_8 non_resp_9;
- 
-AUXILIARY = 
-        female_4 (R3STEP)  partner_4 (R3STEP)
-        london_4 (R3STEP) north_4 (R3STEP)
-        urban_4 (R3STEP) refresh_4 (R3STEP) Higher_4 (R3STEP) Alevel_4 (R3STEP) 
-        GCSE_4 (R3STEP) age_55_4 (R3STEP) age_75_4 (R3STEP) age_102_4 (R3STEP);  
+DATA: FILE = "ip_data2.dat";
+VARIABLE:
+NAMES = pidp hidp_5 indmode_5 mm_5 ivfho_5 f2f_5 f2f_nomiss_5 non_resp_5 non_resp2_5
+     out_5 hidp_6 indmode_6 mm_6 ivfho_6 f2f_6 f2f_nomiss_6 non_resp_6 non_resp2_6
+     out_6 hidp_7 indmode_7 mm_7 ivfho_7 f2f_7 f2f_nomiss_7 non_resp_7 non_resp2_7
+     out_7 hidp_8 indmode_8 mm_8 ivfho_8 f2f_8 f2f_nomiss_8 non_resp_8 non_resp2_8
+     out_8 hidp_9 indmode_9 mm_9 ivfho_9 f2f_9 f2f_nomiss_9 non_resp_9 non_resp2_9
+     out_9 hidp_10 indmode_10 mm_10 ivfho_10 f2f_10 f2f_nomiss_10 non_resp_10
+     non_resp2_10 out_10 ivfio_5 ivfio_6 ivfio_7 ivfio_8 ivfio_9 ivfio_10 inwork_4
+     edu_4 agecat_4 female_4 white_4 partner_4 sf1_4 longill_4 london_4 north_4
+     urban_4 refresh_4 Higher_4 alevel_4 GCSE_4 Other_4 age_35_4 age_55_4 age_75_4
+     age_102_4 inwork_9 edu_9 agecat_9 female_9 white_9 partner_9 sf1_9 longill_9
+     london_9 north_9 urban_9 refresh_9 Higher_9 alevel_9 GCSE_9 Other_9 age_35_9
+     age_55_9 age_75_9 age_102_9 hidp net_d net_n net_s net_m mobile work vol_y
+     vol_m don_y don_m vote_y vote_m p_web p_f2f p_tel p_mail p_other coop coop_m
+     suspi_n suspi_m mm2 ncalls ncall2 ncall6 ncall30 f2f f2f_nomiss non_resp
+     f2f_offer id f2f2_5 othernr_5 refuse_5 web_5 f2f2_6 nissue_6 othernr_6 refuse_6
+     web_6 f2f2_7 nissue_7 othernr_7 refuse_7 web_7 f2f2_8 nissue_8 othernr_8
+     refuse_8 web_8 f2f2_9 nissue_9 othernr_9 refuse_9 web_9; 
+
+ USEVARIABLES ARE
+        f2f2_5 f2f2_6 f2f2_7 f2f2_8 f2f2_9
+        nissue_6 nissue_7 nissue_8 nissue_9
+        refuse_5 refuse_6 refuse_7 refuse_8 refuse_9
+        othernr_5 othernr_6 othernr_7 othernr_8 othernr_9
+
+        female_4  partner_4
+        london_4 north_4 urban_4 refresh_4 Higher_4 Alevel_4 GCSE_4
+        age_55_4 age_75_4 age_102_4
+
+         net_d net_s net_m mobile work vol_y
+         don_y vote_y  p_web p_mail p_other
+         coop suspi_n mm2 ncall6 ncall30 ;
+
+
+
+  CATEGORICAL ARE
+        f2f2_5 f2f2_6 f2f2_7 f2f2_8 f2f2_9
+        nissue_6 nissue_7 nissue_8 nissue_9
+        refuse_5 refuse_6 refuse_7 refuse_8 refuse_9
+        othernr_5 othernr_6 othernr_7 othernr_8 othernr_9;
+
+  AUXILIARY =
+          female_4 (R3STEP)  partner_4 (R3STEP)
+          london_4 (R3STEP) north_4 (R3STEP)
+          urban_4 (R3STEP) refresh_4 (R3STEP) Higher_4 (R3STEP) Alevel_4 (R3STEP)
+          GCSE_4 (R3STEP) age_55_4 (R3STEP) age_75_4 (R3STEP) age_102_4 (R3STEP)
+          net_d (R3STEP) net_s (R3STEP) net_m (R3STEP) mobile (R3STEP)
+          work (R3STEP) vol_y (R3STEP) don_y (R3STEP)
+          vote_y (R3STEP)  p_web (R3STEP)
+          p_mail (R3STEP) p_other (R3STEP) coop (R3STEP) suspi_n (R3STEP) mm2 (R3STEP)
+          ncall6  (R3STEP) ncall30  (R3STEP);
 MISSING=.;
 
 CLASSES = c (5);
 
 ANALYSIS: TYPE =  MIXTURE;
+        Processors = 8(starts);
+        STARTS = 800 400;
 
 
 savedata:

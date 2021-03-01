@@ -1,0 +1,26 @@
+TITLE: latent class analysis of mode switch;
+DATA: FILE = "ip_data.dat";
+VARIABLE: 
+NAMES = pidp indmode_5 ivfio_5 mm_5 sum_var_5 f2f_5 f2f_nomiss_5 non_resp_5
+     indmode_6 ivfio_6 mm_6 sum_var_6 f2f_6 f2f_nomiss_6 non_resp_6 indmode_7
+     ivfio_7 mm_7 sum_var_7 f2f_7 f2f_nomiss_7 non_resp_7 indmode_8 ivfio_8 mm_8
+     sum_var_8 f2f_8 f2f_nomiss_8 non_resp_8 indmode_9 ivfio_9 mm_9 sum_var_9 f2f_9
+     f2f_nomiss_9 non_resp_9 indmode_10 ivfio_10 mm_10 sum_var_10 f2f_10
+     f2f_nomiss_10 non_resp_10 inwork_4 edu_4 agecat_4 female_4 white_4 partner_4
+     sf1_4 longill_4 london_4 north_4 urban_4 refresh_4 Higher_4 Alevel_4 GCSE_4
+     Other_4 age_35_4 age_55_4 age_75_4 age_102_4 inwork_9 edu_9 agecat_9 female_9
+     white_9 partner_9 sf1_9 longill_9 london_9 north_9 urban_9 refresh_9 Higher_9
+     Alevel_9 GCSE_9 Other_9 age_35_9 age_55_9 age_75_9 age_102_9 f2f f2f_nomiss
+     non_resp id;
+USEVARIABLES ARE
+    f2f_nomiss_5 f2f_nomiss_6 f2f_nomiss_7 f2f_nomiss_8 f2f_nomiss_9
+    non_resp_5 non_resp_6 non_resp_7 non_resp_8 non_resp_9;
+CATEGORICAL ARE
+    f2f_nomiss_5 f2f_nomiss_6 f2f_nomiss_7 f2f_nomiss_8 f2f_nomiss_9
+    non_resp_5 non_resp_6 non_resp_7 non_resp_8 non_resp_9;
+  
+MISSING=.;
+
+CLASSES = c (6);
+
+ANALYSIS: TYPE = MIXTURE;

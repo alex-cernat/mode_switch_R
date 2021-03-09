@@ -1189,7 +1189,7 @@ save(ip_data3, lca_fit_mplus,
 
 # make descriptives -------------------------------------------------------
 
-load("./data/ip_data_clean.RData")
+# load("./data/ip_data_clean.RData")
 
 
 # participation -----------------------------------------------------------
@@ -1215,23 +1215,16 @@ ctrl4 <- control_data4 %>%
 
 
 ctrl9 <- ip_data3 %>%
-  rowwise() %>%
-  mutate(cum_nonresp = sum(
-    ifelse(out_5 %in% c("Refusal", "Other non-resp"), 1, 0),
-    ifelse(out_6 %in% c("Refusal", "Other non-resp"), 1, 0),
-    ifelse(out_7 %in% c("Refusal", "Other non-resp"), 1, 0),
-    ifelse(out_8 %in% c("Refusal", "Other non-resp"), 1, 0),
-    ifelse(out_9 %in% c("Refusal", "Other non-resp"), 1, 0),na.rm = T),
-    any_nonresp = ifelse(cum_nonresp > 0, 1, 0)) %>%
   select(pidp, edu_9, agecat_9, female_9, partner_9,
          urban_9, london_9, north_9,
-           f2f_nomiss_9, any_nonresp)
+           f2f_nomiss_9, any_nonresp, non_resp, class)
+
 
 
 ctrl4_table <- ctrl4 %>%
   rename_all(~str_remove(., "_4")) %>%
   semi_join(out2, by = "pidp") %>%
-  select(-pidp) %>%
+  select(-pidp, -Higher:-age_102) %>%
   sum_tab(give_data_name = F)
 
 ctrl9 <- ctrl9 %>%
@@ -1244,6 +1237,7 @@ ctrl9 <- left_join(ctrl9,
                    by = "pidp")
 
 ctrl9_table <- ctrl9 %>%
+  filter(!is.na(non_resp), !is.na(class)) %>%
   select(edu, agecat,
          female, partner, urban, london, north, f2f_nomiss_9, any_nonresp) %>%
   sum_tab(give_data_name = F)

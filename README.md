@@ -1,6 +1,7 @@
 # Understanding the patterns of mode switching in longitudinal studies
 
 This is the syntax used to produce the peer review paper:
+
 Cernat, A. and Sakshaug, W. J. (2021). Understanding the patterns of mode switching in longitudinal studies. *Survey Research Methods*.
 
 ## Overview of the syntax

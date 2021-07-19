@@ -7,7 +7,7 @@ Cernat, A. and Sakshaug, W. J. (2021). Understanding the patterns of mode switch
 
 The `master.R` file cleans the data, exports it to mplus, imports it and creates the tables and figures. In the `mplus` folder you can find the mplus models estimated. The `Results.Rmd` and `Results.html` present the two tables in the paper.
 
-The data used were the waves 4 to 10 of the Understanding Society Innovation Panel which can be downloaded from the UK Data Archive: (https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=6849)[https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=6849]. Please not that more recent versions of the data might be slightly different to the version we have used.
+The data used were the waves 4 to 10 of the Understanding Society Innovation Panel which can be downloaded from the UK Data Archive: https://beta.ukdataservice.ac.uk/datacatalogue/studies/study?id=6849. Please not that more recent versions of the data might be slightly different to the version we have used.
 
 You can find the info of the packages used bellow.
 

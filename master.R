@@ -20,11 +20,6 @@ rm(list = ls ())
 
 # Admin -------------------------------------------------------------------
 
-# folders for installed packages
-
-# .libPaths(c(paste0("C:/Users/", Sys.getenv("USERNAME"), "/Dropbox (The University of Manchester)/R/package")))
-
-
 # create folders and unzip
 # dir.create("./data")
 # dir.create("./output")
@@ -343,7 +338,7 @@ out2 <- out2 %>%
 
 
 out3 <- out2 %>%
-  select(pidp, out_5:out_9)  %>%
+  select(pidp, out_5, out_6, out_7, out_8, out_9)  %>%
   count(out_5, out_6, out_7, out_8, out_9) %>%
   gather(value, key, -n) %>%
   mutate(wave = as.numeric(str_remove(value, "out_"))) %>%
